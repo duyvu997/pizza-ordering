@@ -1,0 +1,25 @@
+{
+  "name": "pizza-order-application",
+  "version": "1.0.0",
+  "description": "basic pizza order application",
+  "main": "server.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nduy79/pizza-orderring.git"
+  },
+  "keywords": [
+    "nodejs",
+    "mongodb",
+    "pizza",
+    "order"
+  ],
+  "author": "VuNgocDuy-ngocduy0997@gmail.com",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/nduy79/pizza-orderring/issues"
+  },
+  "homepage": "https://github.com/nduy79/pizza-orderring#readme"
+}
