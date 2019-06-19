@@ -4,6 +4,7 @@
   "description": "basic pizza order application",
   "main": "server.js",
   "scripts": {
+    "start": "nodemon server.js",
     "test": "jest"
   },
   "repository": {
@@ -21,5 +22,10 @@
   "bugs": {
     "url": "https://github.com/nduy79/pizza-orderring/issues"
   },
-  "homepage": "https://github.com/nduy79/pizza-orderring#readme"
+  "homepage": "https://github.com/nduy79/pizza-orderring#readme",
+  "dependencies": {
+    "hapi": "18.1.0",
+    "mongoose": "5.6.0",
+    "nodemon": "1.19.1"
+  }
 }

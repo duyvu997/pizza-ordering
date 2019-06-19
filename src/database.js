@@ -5,7 +5,7 @@ mongoose.connect(url, {useNewUrlParser: true});
 let db = mongoose. connection;
 db.on('error', console.error.bind(console, 'connection to DB error'));
 db.once('open', function (){
-    console.log('Connected to server successfull !!! ');
+    console.log('Database connected successfull !!! ');
     module.exports = db;
 } );
 
