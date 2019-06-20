@@ -1,32 +1,28 @@
 const Hapi = require('hapi');
 const database = require('./database');
 const config =  require('./config/server-config');
-const init = async () => {
-    const server = Hapi.server({host: config.HOST, port: config.PORT});
-
-
-    // Plugin 
-    await server.register([
-        { register: require('./routes')  },
-
-    ], // if plugin err
-    (err)=> {
-        if (err) {
-            throw err;
-        }
-    });
-    server.start();
-    console.log('Server running on %s:', server.info.uri);
+async function init () {
     await database.connect;
-};
+    const server = new Hapi.server({
+      host: config.HOST,
+      port: config.PORT
+    })
+    
+    await server.register([
+        {
+            name: 'User Routes',
+            register: require('./routes/user')
+        },
 
-
-
-// log err if init server have error
-process.on('unhandledRejection', (err)=>{
-    console.log(err);
-    process.exit(1);
+    ]);
+  
+    await server.start()
+  
+    console.log(`Server running at: ${server.info.uri}`)
+  }
+  
+init().catch(err => {
+    console.error(`StartServer failed: ${err.stack}`)
+    process.exit(1)
 });
 
-
-init();
