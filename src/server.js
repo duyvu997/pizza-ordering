@@ -8,10 +8,30 @@ async function StartServer () {
       port: config.server.PORT
     });
     
-    await server.register({
+    await server.register([{
       name: 'User-routes',
       register: require('./routes/users-routes')
-    });
+    },
+    {
+      name: 'products-routes',
+      register: require('./routes/products-routes')
+    },
+    {
+      name: 'address-routes',
+      register: require('./routes/address-routes')
+    },
+    {
+      name: 'cart-routes',
+      register: require('./routes/cart-routes')
+    },
+    {
+      name: 'topping-routes',
+      register: require('./routes/topping-routes')
+    },
+    {
+      name: 'orders-routes',
+      register: require('./routes/orders-routes')
+    }]);
     
     await server.start();
   

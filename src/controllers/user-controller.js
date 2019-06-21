@@ -18,6 +18,7 @@ module.exports.createUser = async (req, h)=> {
 
 module.exports.login = (req, h) => {
     try{
+        
         const {userName, password} = req.payload;
         const token =  services.login(userName, password);
         return h.response(token).code(200);
