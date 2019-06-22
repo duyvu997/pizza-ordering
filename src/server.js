@@ -1,13 +1,16 @@
 const Hapi = require("hapi");
+const HapiSwagger = require('hapi-swagger');
+const Inert = require('@hapi/inert');
+const Vision = require('@hapi/vision');
 const database = require('./config/database');
-const config = require('./config/env-config')
+const config = require('./config/env-conf')
+require('dotenv').config();
 async function StartServer () {
     await database.connect;
     const server = new Hapi.server({
       host: config.server.HOST,
       port: config.server.PORT
     });
-    
     await server.register([{
       name: 'User-routes',
       register: require('./routes/users-routes')
@@ -33,6 +36,13 @@ async function StartServer () {
       register: require('./routes/orders-routes')
     }]);
     
+    await server.register([
+      Inert,
+      Vision,
+      {
+          plugin: HapiSwagger,          
+      }
+    ]);
     await server.start();
   
     console.log(`Server running at: ${server.info.uri}`);

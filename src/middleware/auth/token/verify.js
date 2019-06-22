@@ -4,7 +4,7 @@ const config =  require('./auth-conf');
 
 // This file is only verify the token. 
 
-let verifyToken = (request, response, next)=>{
+let verifyUser = (request, response, next)=>{
     let token =  request.headers['x-access-token']|| request.headers['authorization'];
     if (token.startWith('Bearer ')){
         token = token.slice(7, token.lengh);  // remove Bearer from string
@@ -30,7 +30,7 @@ let verifyToken = (request, response, next)=>{
 }
 
 module.exports = {
-    verifyToken
+    verifyUser
 };
 
 

@@ -9,6 +9,11 @@ let productSchema = new Schema({
 
 });
 
+
+productSchema.statics.getById = async function getById (productID){
+    return this.find({_id:productID});
+}
+
 const Product = mongoose.model('Product', productSchema);
 
 module.exports = {

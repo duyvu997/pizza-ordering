@@ -14,8 +14,8 @@ const cryptPassword = async function (userName, userPassword) {
 
 // somePassword is a password user enter in textbox
 // hash is a password was hash in DB
-const verifyPassword = async function (somePassword, hash) {
-    return await bcrypt.compare(somePassword, hash);
+const verifyPassword =  function (somePassword, hash) {
+    return bcrypt.compareSync(somePassword, hash);
 }
 
 
