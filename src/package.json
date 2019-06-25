@@ -7,6 +7,9 @@
     "start": "nodemon server.js",
     "test": "jest"
   },
+  "engines": {
+    "node":"10.16.0"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/nduy79/pizza-orderring.git"
