@@ -8,8 +8,8 @@ require('dotenv').config();
 async function StartServer() {
   await database.connect;
   const server = new Hapi.server({
-    host: process.env.HOST || config.server.HOST,
-    port: process.env.PORT || config.server.PORT
+    host: process.env.HOST || config.server.HOST||'0.0.0.0',
+    port: process.env.PORT || 3000
   });
   await server.register([
     {

@@ -8,7 +8,7 @@ module.exports = (server)=>{
     });
     server.route({
         method:'GET',
-        path: '/favicon.ico',
+        path: '/favicon',
         handler : (res, h)=>{
             return 'favicon.ico'
         }
