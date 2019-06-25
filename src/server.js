@@ -11,7 +11,11 @@ async function StartServer() {
     host: process.env.HOST || config.server.HOST,
     port: process.env.PORT || config.server.PORT
   });
-  await server.register([{
+  await server.register([
+    {
+      name: 'Root',
+      register: require('./routes/routes')
+    },{
       name: 'User-routes',
       register: require('./routes/users-routes')
     },
