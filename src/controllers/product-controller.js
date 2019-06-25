@@ -1,7 +1,4 @@
 const services = require('../services/products-services');
-const Boom = require('@hapi/boom');
-const ERROR = require('../config/error-code');
-
 
 const getById = async function (req, h) {
     try {
@@ -20,22 +17,13 @@ const getListByCategory = async function (req, h) {
         const cateName = req.params.categoryName;
         console.log(cateName)
         const result = await services.findProductsByCategory(cateName);
-        // result.then(function (data){
-        //         console.log(data);
-        // });
-        
-        
+       
         return h.response(result).code(200);
 
     } catch (err) {
         throw err
     }
-
-
 }
-
-
-
 
 module.exports = {
     getById,

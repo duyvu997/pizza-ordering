@@ -1,26 +1,25 @@
 const Products = require('../models/product-model');
-const categoryService = require('../services/category-services');
-const ERROR = require('../config/error-code');
 
 const Category = require('../models/category');
 const findProducts = async (cateName) => {
     try {
-        return await Category.findOne({categoryName:cateName})
-        .populate('products')
-        .exec(function  (err, productsWithCategory){
-            if (err){
-                throw err;
-            }
-            if (!productsWithCategory){
-                
-                return ERROR.database.NOTFOUND              
-            }
-            // console.log("name",productsWithCategory)
-            return productsWithCategory
+        return await Category.findOne({
+                categoryName: cateName
+            })
+            .populate('products')
+            .exec(function (err, productsWithCategory) {
+                if (err) {
+                    throw err;
+                }
+                if (!productsWithCategory) {
+                    return "notthing";
+                  
+                }
+                return productsWithCategory
 
-        })  
+            })
 
-    }catch(err){
+    } catch (err) {
         throw err
     }
 }

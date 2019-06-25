@@ -4,11 +4,11 @@ const saltRounds = 10;
 
 
 const cryptPassword = async function (userName, userPassword) {
-    await bcrypt.hash(userPassword, saltRounds, function (err, hash){
+    await bcrypt.hash(userPassword, saltRounds, function (err, passHash){
         if(err){
             throw err;
         }
-        Model.updatePassword(userName, hash);
+        Model.updatePassword(userName, passHash);
     });
 }
 

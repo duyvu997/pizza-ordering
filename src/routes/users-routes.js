@@ -32,12 +32,12 @@ module.exports         = (server)                       => {
 
     server.route({
         method         : 'GET',
-        path           : '/users/{id}',
+        path           : '/users',
         options        : {
-            description: 'Get profile of current user',
+            description: 'Get profile of current user by access token',
             tags       : ['api', 'user'],
             
         },
-        handler        : userController.getById
+        handler        : userController.getProfile
     });
 }

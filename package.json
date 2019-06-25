@@ -4,7 +4,7 @@
   "description": "basic pizza order application",
   "main": "server.js",
   "scripts": {
-    "start": "nodemon server.js",
+    "start": "nodemon src/server.js",
     "test": "jest"
   },
   "engines": {

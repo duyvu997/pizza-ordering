@@ -1,14 +1,29 @@
-const User = require('../models/user-model');
+const Users = require('../models/user-model');
 const hashTools = require('../middleware/hash/hash');
-const tokenTools = require('../middleware/auth/token/create')
-const Boom = require('@hapi/boom')
+const tokenTools = require('../middleware/auth/token/token');
+const Boom = require('@hapi/boom');
+const ERROR = require('../config/error');
+
+
 const create = async function (username, useremail, userpassword) {
     try {
-        let user = new User();
+        const isExist = await Users.findOne({
+            userEmail: useremail
+        });
+        if (isExist) {
+            return ERROR.Code.ALREADY_EXIT
+        };
+
+        // create new model will move to user-models file
+        let user = new Users();
         user.userName = username;
         user.userEmail = useremail;
         hashTools.cryptPassword(username, userpassword);
-        return await user.save();
+        user.save();
+
+        const token = tokenTools.genarateToken(username, useremail);
+
+        return token;
 
     } catch (err) {
         throw err;
@@ -16,49 +31,39 @@ const create = async function (username, useremail, userpassword) {
 
 }
 
-const login = async (username, password) => {
+const login = async (useremail, password) => {
     try {
-        console.log(username);
-        // fetch data from DB
-        const userInDB = await fetchUserFromDB(username);
-        // if user not exist in DB =>> 
-        // if user exist in DB , get username and password 
-        console.log(userInDB);
-        let usernameInDB = userInDB.userEmail;
-        let passwordInDB = userInDB.userPassword;
-        //and then verify.
-        const match = hashTools.verifyPassword(password, passwordInDB);
-
-        if (username != usernameInDB || !match) {
-            return "something wrong";
+        const user = await Users.findOne({
+            userEmail: useremail
+        });
+    
+        if (!user) {
+            return ERROR.Code.NOT_FOUND;
         }
+        //and then verify.
+        const match = hashTools.verifyPassword(password, user.userPassword);
+        
+        if (!match) {
+            return ERROR.Code.INVALID;
+        }
+        
         // at here match == true: --> return a token.      
-        const token = tokenTools.createToken(username, password);
+        const token = tokenTools.genarateToken(user.userName, user.userEmail);
         return token;
 
     } catch (err) {
-        console.log(err);
-        Boom.internal('login error');
+        console.log('Something wrong in login function');
+        throw err;
     }
 }
 
-const fetchUserFromDB = async (userName) => {
-    try {
-        const result = await User.findOne({
-            userEmail: userName
-        })
-        if (!result) {
-            throw Boom.notFound
-        }
-        return result;
-    } catch (err) {
-        throw Boom.internal('Error in DB');
-    }
-}
 
-const getById = async function (userId) {
+
+const getProfile = async function (accessToken) {
     try {
-        return await User.getById(userId);
+        const user = tokenTools.verifyToken(accessToken);
+        console.log(user);
+        return await Users.getByEmail(user.userEmail);
     } catch (err) {
         throw err;
     }
@@ -67,5 +72,5 @@ const getById = async function (userId) {
 module.exports = {
     create,
     login,
-    getById
+    getProfile
 }
