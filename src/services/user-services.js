@@ -1,6 +1,6 @@
 const User = require('../models/user-model');
 const hashTools = require('../middleware/hash/hash');
-const tokenTools = require('../middleware/auth/token/create-token')
+const tokenTools = require('../middleware/auth/token/create')
 const Boom = require('@hapi/boom')
 const create = async function (username, useremail, userpassword) {
     try {
@@ -18,6 +18,7 @@ const create = async function (username, useremail, userpassword) {
 
 const login = async (username, password) => {
     try {
+        console.log(username);
         // fetch data from DB
         const userInDB = await fetchUserFromDB(username);
         // if user not exist in DB =>> 
@@ -57,14 +58,7 @@ const fetchUserFromDB = async (userName) => {
 
 const getById = async function (userId) {
     try {
-        const result = await User.findOne({
-            _id: userId
-        }, function (err) {
-            if (err) {
-                throw err;
-            }
-        });
-        return result;
+        return await User.getById(userId);
     } catch (err) {
         throw err;
     }

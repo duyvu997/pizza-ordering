@@ -1,5 +1,6 @@
 const userController   = require('../controllers/user-controller');
 const userValidate     = require('../validation/user-validate');
+const Joi = require('@hapi/joi')
 
 module.exports         = (server)                       => {
     server.route({
@@ -22,9 +23,11 @@ module.exports         = (server)                       => {
         options        : {
             description: 'Allow user login with username: by email, password',
             notes      : 'Return user\'s token if login success',
-            tags       : ['api', 'login']
+            tags       : ['api', 'login'],
+            
         },
         handler        : userController.login
+        
     });
 
     server.route({

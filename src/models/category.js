@@ -2,12 +2,12 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 let categorySchema = new Schema({
-    categoryName: String  
+    categoryName: String,
+    products:[{type: Schema.Types.ObjectId, ref: 'Product'}]  
 });
 
 
 const Category = mongoose.model("Category", categorySchema);
 
-module.exports = {
+module.exports = 
     Category
-};

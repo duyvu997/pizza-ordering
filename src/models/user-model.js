@@ -19,6 +19,17 @@ userSchema.statics.updatePassword = function updatePassword(username, somepasswo
     })
 }
 
+userSchema.statics.getById =  function getById(userID){
+    return this.findOne({
+        _id: userID //conditions
+    },
+    function (err) { // callback 
+        if (err) {
+            return Boom.internal('Error in Database');
+        }
+    });
+}
+
 
 const User =  mongoose.model('User', userSchema);
 

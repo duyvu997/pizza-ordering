@@ -5,13 +5,13 @@ const Vision = require('@hapi/vision');
 const database = require('./config/database');
 const config = require('./config/env-conf')
 require('dotenv').config();
-async function StartServer () {
-    await database.connect;
-    const server = new Hapi.server({
-      host: config.server.HOST,
-      port: config.server.PORT
-    });
-    await server.register([{
+async function StartServer() {
+  await database.connect;
+  const server = new Hapi.server({
+    host: process.env.HOST || config.server.HOST,
+    port: process.env.PORT || config.server.PORT
+  });
+  await server.register([{
       name: 'User-routes',
       register: require('./routes/users-routes')
     },
@@ -34,21 +34,22 @@ async function StartServer () {
     {
       name: 'orders-routes',
       register: require('./routes/orders-routes')
-    }]);
-    
-    await server.register([
-      Inert,
-      Vision,
-      {
-          plugin: HapiSwagger,          
-      }
-    ]);
-    await server.start();
-  
-    console.log(`Server running at: ${server.info.uri}`);
-  }
-  
+    }
+  ]);
+
+  await server.register([
+    Inert,
+    Vision,
+    {
+      plugin: HapiSwagger,
+    }
+  ]);
+  await server.start();
+
+  console.log(`Server running at: ${server.info.uri}`);
+}
+
 StartServer().catch(err => {
-    console.error(`StartServer failed: ${err.stack}`)
-    process.exit(1)
-  });
+  console.error(`StartServer failed: ${err.stack}`)
+  process.exit(1)
+});
