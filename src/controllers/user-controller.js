@@ -18,10 +18,10 @@ module.exports.register = async (req, h) => {
             return h.response({
                 statusCode: ERROR.Code.ALREADY_EXIT,
                 message   : ERROR.Message.Already_exist
-            })
+            });
         }
 
-        const obj = {statusCode: ERROR.Code.CREATE, accessToken: result}
+        const obj = {statusCode: ERROR.Code.CREATE, accessToken: result};
 
         return h.response(obj);
 

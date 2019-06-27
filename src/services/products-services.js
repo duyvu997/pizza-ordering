@@ -3,21 +3,10 @@ const Products = require('../models/product-model');
 const Category = require('../models/category');
 const findProducts = async (cateName) => {
     try {
-        return await Category.findOne({
+        let products = await Category.findOne({
                 categoryName: cateName
-            })
-            .populate('products')
-            .exec(function (err, productsWithCategory) {
-                if (err) {
-                    throw err;
-                }
-                if (!productsWithCategory) {
-                    return "notthing";
-                  
-                }
-                return productsWithCategory
-
-            })
+            }).populate('products');
+            return  products;
 
     } catch (err) {
         throw err

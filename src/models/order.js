@@ -8,10 +8,10 @@ let orderSchema = new Schema({
     orderAddress: String,
     userPhone: Number,
     products: [{
-        productID: Schema.Types.ObjectId,
+        productID: {type:Schema.Types.ObjectId, ref: 'Product'},
         size: String,
         topping: [{
-            toppingID: Schema.Types.ObjectId,
+            toppingID: {type: Schema.Types.ObjectId,ref: 'Topping'}
         }],
         quantity: Number,
         crustType: String

@@ -3,6 +3,7 @@ const HapiSwagger = require('hapi-swagger');
 const Inert = require('@hapi/inert');
 const Vision = require('@hapi/vision');
 const Database = require('./database/database');
+const Qs =  require('qs')
 require('dotenv').config();
 
 
@@ -14,8 +15,11 @@ require('dotenv').config();
 async function StartServer() {
   await Database.connect;
   const server = new Hapi.server({
-    // host: process.env.HOST || 'localhost',
-    port: process.env.PORT || 3636
+    host: process.env.HOST || 'localhost',
+    port: process.env.PORT || 3636,
+    query: {
+      parser : (query)=> Qs.parse(query)
+    }
   });
   await server.register([
     {

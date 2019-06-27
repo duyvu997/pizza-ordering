@@ -4,10 +4,10 @@ const Schema =  mongoose.Schema;
 let shopingCartSchema =  new Schema({
     userID =  Schema.Types.ObjectId,
     products: [{
-        productID: Schema.Types.ObjectId,
+        productID: {type: Schema.Types.ObjectId, ref: 'Product'},
         size: String,
         topping: [{
-            toppingID: Schema.Types.ObjectId,
+            toppingID:{type: Schema.Types.ObjectId, ref: 'Topping'}
         }],
         quantity: Number,
         crustType: String
