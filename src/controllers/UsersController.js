@@ -38,6 +38,7 @@ module.exports.login = async (req, h) => {
             userEmail,
             userPassword
         } = req.payload;
+        console.log(req.payload)
         const result = await services.login(userEmail, userPassword);
         if (ERROR.Code.INVALID === result || ERROR.Code.NOT_FOUND === result){
             const obj =  {statusCode: ERROR.Code.INVALID, message: ERROR.Message.Invalid}
