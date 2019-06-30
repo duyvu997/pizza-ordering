@@ -1,4 +1,4 @@
-const toppingController =  require('../controllers/topping-controller');
+const toppingController =  require('../controllers/ToppingsController');
 
 module.exports = (server) => {
     server.route({

@@ -1,5 +1,5 @@
-const userController   = require('../controllers/user-controller');
-const userValidate     = require('../validation/user-validate');
+const userController   = require('../controllers/UsersController');
+const userValidate     = require('../validation/usersValidate');
 const Joi = require('@hapi/joi')
 
 module.exports         = (server)                       => {

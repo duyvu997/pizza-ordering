@@ -2,7 +2,7 @@ const Hapi = require("hapi");
 const HapiSwagger = require('hapi-swagger');
 const Inert = require('@hapi/inert');
 const Vision = require('@hapi/vision');
-const Database = require('./database/database');
+const Database = require('./database/init');
 const Qs =  require('qs')
 require('dotenv').config();
 
@@ -15,7 +15,7 @@ require('dotenv').config();
 async function StartServer() {
   await Database.connect;
   const server = new Hapi.server({
-    host: process.env.HOST || 'localhost',
+    // host: process.env.HOST || 'localhost',
     port: process.env.PORT || 3636,
     query: {
       parser : (query)=> Qs.parse(query)
@@ -24,30 +24,26 @@ async function StartServer() {
   await server.register([
     {
       name: 'Root',
-      register: require('./routes/root-routes')
+      register: require('./routes/RootRoutes')
     },{
       name: 'User-routes',
-      register: require('./routes/users-routes')
+      register: require('./routes/UserRoutes')
     },
     {
       name: 'products-routes',
-      register: require('./routes/products-routes')
+      register: require('./routes/ProductRoutes')
     },
     {
       name: 'address-routes',
-      register: require('./routes/address-routes')
-    },
-    {
-      name: 'cart-routes',
-      register: require('./routes/cart-routes')
-    },
+      register: require('./routes/AddressRoutes')
+    },    
     {
       name: 'topping-routes',
-      register: require('./routes/topping-routes')
+      register: require('./routes/ToppingRoutes')
     },
     {
       name: 'orders-routes',
-      register: require('./routes/orders-routes')
+      register: require('./routes/OrderRoutes')
     }
   ]);
 

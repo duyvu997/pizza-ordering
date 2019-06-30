@@ -9,6 +9,7 @@ module.exports = {
     Message : {
         Already_exist : 'User already exist !!! Try again',
         Invalid: 'Email or password is invalid !!! Try again.',
-        InvalidObjectID: 'ObjectId is invalid !!!'
+        InvalidObjectID: 'ObjectId is invalid !!!',
+        InvalidToken:'Invalid Token. Try again !!!'
     }
 }

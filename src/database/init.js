@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const config = require('../config/env-conf');
+const config = require('../configuration/envConfiguration');
 
 
 

@@ -1,6 +1,6 @@
-const services = require('../services/products-services');
+const services = require('../services/productsServices');
 const mongoose = require('mongoose');
-const ERROR =  require('../config/error');
+const ERROR =  require('../configuration/errorConstant');
 
 const getById = async function (req, h) {
     try {

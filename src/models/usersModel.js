@@ -1,14 +1,12 @@
 const mongoose = require('mongoose');
+const Schema = mongoose.Schema;
 
 
+let userSchema = new Schema({
 
-let userSchema = new mongoose.Schema({
     userName: String,
     userEmail: String,
     userPassword: String,
-
-
-
 
 });
 
@@ -28,31 +26,18 @@ userSchema.statics.updatePassword = function updatePassword(username, somepasswo
         })
 }
 
-userSchema.statics.getById = function getById(userID) {
+userSchema.statics.getById = function getById(userId) {
     return this.findOne({
-            _id: userID //conditions
+            _id: userId //conditions
+        }, {}, {
+            projection: {
+                userPassword: 0 // don't show your password
+            }
         },
         function (err) { // callback 
             if (err) {
                 return Boom.internal('Error in Database');
             }
-        });
-}
-
-userSchema.statics.getByEmail = function getByEmail(useremail) {
-    console.log(useremail)
-    return this.findOne({
-            userEmail: useremail //conditions
-        },{}, {
-            projection: {
-                userPassword: 0 // don't show your password
-            }
-        },
-        function (err, doc) { // callback 
-            if (err) {
-                throw err;
-            }
-            return doc;
         });
 }
 

@@ -1,4 +1,4 @@
-const addressController =  require('../controllers/address-controller');
+const addressController =  require('../controllers/AddressController');
 
 
 module.exports = (server) => {
@@ -6,7 +6,7 @@ module.exports = (server) => {
         method: 'POST',
         path: '/address',
         options:{
-            description:'Create new address of user',
+            description:'Create new address of user with user\'s access token',
             notes: 'Require user\' token.',
             tags:['api', 'address']
         },

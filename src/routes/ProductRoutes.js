@@ -1,5 +1,5 @@
-const productController =  require('../controllers/product-controller');
-const productValidate =  require('../validation/product-validate');
+const productController =  require('../controllers/ProductsController');
+const productValidate =  require('../validation/productsValidate');
 
 module.exports = (server) => { 
     server.route({

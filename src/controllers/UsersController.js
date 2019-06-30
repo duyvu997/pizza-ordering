@@ -1,6 +1,6 @@
-const services = require('../services/user-services');
+const services = require('../services/userServices');
 const Boom = require('@hapi/boom');
-const ERROR = require('../config/error')
+const ERROR = require('../configuration/errorConstant')
 
 
 module.exports.register = async (req, h) => {
@@ -36,9 +36,9 @@ module.exports.login = async (req, h) => {
 
         const {
             userEmail,
-            password
+            userPassword
         } = req.payload;
-        const result = await services.login(userEmail, password);
+        const result = await services.login(userEmail, userPassword);
         if (ERROR.Code.INVALID === result || ERROR.Code.NOT_FOUND === result){
             const obj =  {statusCode: ERROR.Code.INVALID, message: ERROR.Message.Invalid}
             return h.response(obj);

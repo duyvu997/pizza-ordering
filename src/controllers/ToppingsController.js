@@ -1,4 +1,4 @@
-const services =  require('../services/topping-services.js');
+const services =  require('../services/toppingsServices.js');
 
 const getAll = function (){
 
