@@ -19,7 +19,8 @@ const getLatestOrder = async function (accessToken) {
             // return message and error code
         }
         let order = await Orders.getCurrentCartOfUser(user.userID);
-        let totalPrices = getTotalPrices(order.cartItems)
+        let totalPrices = await     getTotalPrices(order.cartItems);
+        console.log(totalPrices)
 
 
 
@@ -30,23 +31,26 @@ const getLatestOrder = async function (accessToken) {
 
 }
 const getTotalPrices = async function (cartItems) {
-    let totalPrices = 0;
+    let totalPrice = 0;
     for (item of cartItems) {
 
         const productCost = await calculateProductPrices(item)
-
+        console.log(productCost);
         const toppingCost = await calculateToppingsPrices(item.toppings)
+        console.log(toppingCost);
 
-        totalPrices += productCost + toppingCost;
+        totalPrice += productCost + toppingCost;
+        // console.log(totalPrice);
 
     }
-    return totalPrices;
+    return totalPrice;
 }
 
 const calculateProductPrices = async function (product) {
 
-    const prices = await Products.getPrices(product.productID, product.productSize)
-    return prices * product.quantity
+    const price = await Products.getPrices(product.productID, product.productSize)
+    console.log(price);
+    return price * product.quantity
 }
 
 
@@ -60,7 +64,7 @@ const calculateToppingsPrices = async function (toppings) {
 }
 
 
-const create = async function (accessToken, orderStatus, orderAddress, userPhone, cartItems) {
+const create = async function (accessToken, orderStatus, orderAddress, userPhone, cartItems,totalPrice) {
     try {
         const user = tokenTools.verifyToken(accessToken);
         if (ERROR.Code.FAILD_TO_VERIFY_TOKEN === user) {
@@ -79,7 +83,12 @@ const create = async function (accessToken, orderStatus, orderAddress, userPhone
         order.orderAddress = orderAddress;
         order.userPhone = userPhone;
         order.cartItems = cartItems
-
+        
+        let reCalculate = await getTotalPrices(order.cartItems);
+        console.log(reCalculate);
+        if (totalPrice != reCalculate){
+            return ERROR.Code.INVALID_TOTALPRICE;
+        }
         const result = await order.save()
         return result;
 

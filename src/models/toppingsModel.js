@@ -4,7 +4,8 @@ Schema  =  mongoose.Schema;
 let toppingSchema =  new Schema({
     toppingID :  Schema.Types.ObjectId,
     toppingName :  String,
-    toppingPrice : Number
+    toppingPrice : Number,
+    toppingCategory: {type:Schema.Types.ObjectId, ref : 'Category'}
 });
 
 toppingSchema.statics.getById = async function getById(toppingID) {
@@ -26,6 +27,7 @@ toppingSchema.statics.getById = async function getById(toppingID) {
 
 toppingSchema.statics.calculatePrices = async function calculatePrices(toppingID, quantity) {
     const topping  = await Topping.getById(toppingID);
+    // console.log(topping);
     return topping.toppingPrice*quantity;
 
 };

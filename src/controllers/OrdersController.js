@@ -27,11 +27,16 @@ const create = async function (request, h) {
         const orAddress   = request.payload.orderAddress;
         const usPhone     = request.payload.userPhone;
         const cartItems   = request.payload.cartItems;
+        const totalPrice  = request.payload.totalPrice;
+        
+        
+        const result = await services.create(accessToken,orStatus,orAddress,usPhone, cartItems,totalPrice);
 
-        
-        const result = await services.create(accessToken,orStatus,orAddress,usPhone, cartItems);
-        
-        return h.response(result).code(200);
+        if (ERROR.Code.INVALID_TOTALPRICE == result){
+            return h.response({message:ERROR.Message.InvalidPrice}).code(400);
+        }
+
+        return h.response({message:ERROR.Message.Success}).code(200);
 
     } catch (err) {
         throw err;

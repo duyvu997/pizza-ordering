@@ -1,7 +1,9 @@
 const Products = require('../models/productsModel');
 const Orders = require('../models/ordersModel');
-
 const Category = require('../models/categoriesModel');
+
+
+
 const findProducts = async (cateName) => {
     try {
         let products = await Category.findOne({
@@ -43,12 +45,21 @@ const findBestSeller =  async function(){
         throw err;
     }
 }
+const findAll =  async function (){
+    try {
+        const result = await Products.find({});
+        return result;
+    } catch (err) {
+        throw err;
+    }
+}
 
 
 module.exports = {
     getById,
     findProductsByCategory,
-    findBestSeller
+    findBestSeller,
+    findAll
     
     
 }

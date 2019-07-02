@@ -7,7 +7,7 @@ Joi.objectId = require('joi-objectid')(Joi);
 module.exports = {
     create: {
         payload: Joi.object().keys({
-            totalPrice:Joi.string().required(),
+            totalPrice:Joi.number().required(),
             orderStatus: Joi.string().required(),
             orderAddress: Joi.objectId().required(),
             userPhone: myCustomJoi.string().phoneNumber({
@@ -17,7 +17,7 @@ module.exports = {
             cartItems: Joi.array().items(Joi.object().keys({
                 productID: Joi.objectId(),
                 productSize: Joi.string(),
-                quantity: Joi.string(),
+                quantity: Joi.number(),
                 crustType: Joi.string(),
                 toppings: Joi.array().items( Joi.object().keys({
                     toppingID: Joi.objectId(),

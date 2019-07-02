@@ -1,16 +1,24 @@
 const services = require('../services/toppingsServices.js');
 
-const getAll = async function (req, h){
-    try{
-        console.log('top controller');
-        const result = await services.getAll();
-        console.log(result);
+
+const getToppingsByCategory = async function (req, h) {
+
+    try {
+        let result;
+        const category = req.query.category;
+        // find without query
+        if(!category){
+            result = await services.getAll();
+            return h.response(result).code(200);
+        } 
+        // find with query
+        result = await services.findToppingsByCategory(category);
         return h.response(result).code(200);
-    }catch(err){
+    } catch (err) {
         throw err;
     }
 }
 
-module.exports ={
-    getAll
+module.exports ={ 
+    getToppingsByCategory
 }

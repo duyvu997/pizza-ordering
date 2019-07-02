@@ -20,8 +20,13 @@ const getById = async function (req, h) {
 const getListByCategory = async function (req, h) {
 
     try {
-        const category = req.query.categories;    
-        const result = await services.findProductsByCategory(category);
+        let result;
+        const category = req.query.categories; 
+        if(!category){
+            result = await services.findAll();
+            return h.response(result).code(200);
+        }   
+        result = await services.findProductsByCategory(category);
         return h.response(result).code(200);
     } catch (err) {
         throw err;

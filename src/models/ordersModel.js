@@ -51,8 +51,9 @@ orderSchema.statics.getCurrentCartOfUser = function getCurrentCartOfUser(userId)
 }
 
 orderSchema.statics.bestSeller = async function bestSeller ()  {
-    const result = await Order.aggregate([{
-            $unwind: "$cartItems",
+    const result = await Order.aggregate([
+        {
+            $unwind: "$cartItems"
         },
         {
             $group: {
@@ -69,14 +70,19 @@ orderSchema.statics.bestSeller = async function bestSeller ()  {
         },
         {
             $limit: 5
-        }, {
+        }, 
+        {
             $lookup: {
                 from: "products",
                 localField: "_id",
                 foreignField: "_id",
                 as: "product"
             }
-        }, {
+        },  
+        {
+            $unwind: "$product"
+        },
+        {
             $project: {
                 "product":1 ,
                 "_id": 0
