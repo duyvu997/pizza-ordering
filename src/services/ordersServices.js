@@ -23,7 +23,7 @@ const getLatestOrder = async function (accessToken) {
 
 
 
-        return totalPrices;
+        return order;
     } catch (err) {
         throw err;
     }

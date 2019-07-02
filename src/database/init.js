@@ -3,7 +3,7 @@ const config = require('../configuration/envConfiguration');
 
 
 
-const url = config.database.urlCloud
+const url = config.database.url
 
 mongoose.connect(url, {
     useNewUrlParser: true
