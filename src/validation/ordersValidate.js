@@ -15,10 +15,10 @@ module.exports = {
             }),
             cartItems: Joi.array().items(Joi.object().keys({
                 productID: Joi.objectId(),
-                size: Joi.string(),
+                productSize: Joi.string(),
                 quantity: Joi.string(),
                 crustType: Joi.string(),
-                topping: Joi.array().items( Joi.object().keys({
+                toppings: Joi.array().items( Joi.object().keys({
                     toppingID: Joi.objectId(),
                     toppingQuantity: Joi.number()
                 }))

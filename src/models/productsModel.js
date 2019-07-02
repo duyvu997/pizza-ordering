@@ -24,6 +24,14 @@ productSchema.statics.getById = async function getById(productID) {
             }
         });
 }
+productSchema.statics.getPrices = async  function getPrices(productID, productSize){
+    const product =  await Product.getById(productID);
+      for (price of product.productPrices){
+        if (productSize == price.size){
+            return price.prices
+        }
+    }
+}
 
 const Product = mongoose.model('Product', productSchema);
 

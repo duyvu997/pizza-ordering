@@ -7,7 +7,7 @@ module.exports = (server) => {
         
         path:'/products',
         options:{
-            description: 'Get products by category',
+            description: 'Get products by category query content like: /product?categories=classic',
             tags:['api','products']
         },
         handler: productController.getListByCategory

@@ -38,7 +38,12 @@ module.exports.login = async (req, h) => {
             userEmail,
             userPassword
         } = req.payload;
-        console.log(req.payload)
+        
+
+        if(userEmail === undefined||userPassword === undefined){
+            return h.response('Invalid input').code(400);
+        }
+     
         const result = await services.login(userEmail, userPassword);
         
         if (ERROR.Code.INVALID === result || ERROR.Code.NOT_FOUND === result){

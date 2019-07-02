@@ -41,13 +41,14 @@ const login = async (useremail, password) => {
         }
         //and then verify.
         const match = hashTools.verifyPassword(password, user.userPassword);
-        
+        console.log(match);
         if (!match) {
             return ERROR.Code.INVALID;
         }
     
         // at here match == true: --> return a token.      
         const token = tokenTools.genarateToken(user._id, user.userName, user.userEmail);
+        
         return token;
 
     } catch (err) {

@@ -7,8 +7,8 @@ let cartItemSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: 'Product'
     },
-    size: String,
-    topping: [{
+    productSize: String,
+    toppings: [{
         _id: false,
         toppingID: {
             type: Schema.Types.ObjectId,
@@ -31,8 +31,8 @@ let orderSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: 'Address'
     },
-    userPhone: Number,
-    cartItems: [ cartItemSchema ]
+    userPhone: String,
+    cartItems: [cartItemSchema]
 });
 
 orderSchema.statics.getCurrentCartOfUser = function getCurrentCartOfUser(userId) {
@@ -44,12 +44,43 @@ orderSchema.statics.getCurrentCartOfUser = function getCurrentCartOfUser(userId)
                 throw err;
             }
             return doc;
-
-        })
+        });
     } catch (err) {
         throw err;
     }
 }
+
+// const bestSeller = Order.aggregate([{
+//         $unwind: "$cartItems"
+//     },
+//     {
+//         $group: {
+//             _id: "$cartItems.productID",
+//             total: {
+//                 $sum: "$cartItems.quantity"
+//             },
+//         }
+//     },
+//     {
+//         $project: {
+//             _id: 1
+//         }
+//     },
+//     {
+//         $sort: {
+//             total: -1
+//         }
+//     },
+//     {
+//         $limit: 5
+//     }
+// ]);
+
+
+
+
+
+
 
 const Order = mongoose.model('Order', orderSchema);
 
