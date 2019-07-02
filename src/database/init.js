@@ -3,7 +3,7 @@ const config = require('../configuration/envConfiguration');
 
 
 
-const url = config.database.url
+const url = config.database.urlCloudgit 
 
 mongoose.connect(url, {
     useNewUrlParser: true
