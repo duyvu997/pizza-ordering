@@ -22,14 +22,24 @@ const getListByCategory = async function (req, h) {
     try {
         const category = req.query.categories;    
         const result = await services.findProductsByCategory(category);
-        return result;
+        return h.response(result).code(200);
     } catch (err) {
+        throw err;
+    }
+}
+
+const findBestSellerProducts =  async function(req, h){
+    try{
+        const result = await services.findBestSeller();
+        return h.response(result).code(200);
+    }catch(err){
         throw err;
     }
 }
 
 module.exports = {
     getById,
-    getListByCategory
+    getListByCategory,
+    findBestSellerProducts
 
 }

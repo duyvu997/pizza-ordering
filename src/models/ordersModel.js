@@ -49,39 +49,48 @@ orderSchema.statics.getCurrentCartOfUser = function getCurrentCartOfUser(userId)
         throw err;
     }
 }
-
-// const bestSeller = Order.aggregate([{
-//         $unwind: "$cartItems"
-//     },
-//     {
-//         $group: {
-//             _id: "$cartItems.productID",
-//             total: {
-//                 $sum: "$cartItems.quantity"
-//             },
-//         }
-//     },
-//     {
-//         $project: {
-//             _id: 1
-//         }
-//     },
-//     {
-//         $sort: {
-//             total: -1
-//         }
-//     },
-//     {
-//         $limit: 5
-//     }
-// ]);
-
-
-
-
-
-
-
 const Order = mongoose.model('Order', orderSchema);
 
+const bestSeller = async () => {
+    const result = await Order.aggregate([{
+            $unwind: "$cartItems"
+        },
+        {
+            $group: {
+                _id: "$cartItems.productID",
+                total: {
+                    $sum: "$cartItems.quantity"
+                },
+            }
+        },
+        {
+            $project: {
+                _id: 1
+            }
+        },
+        {
+            $sort: {
+                total: -1
+            }
+        },
+        {
+            $limit: 5
+        }
+    ])
+   
+    return result;
+}
+
+
+
+
+
+
+
+
+
+module.exports = {
+    bestSeller,
+    
+}
 module.exports = Order

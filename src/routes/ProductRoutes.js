@@ -11,7 +11,18 @@ module.exports = (server) => {
             tags:['api','products']
         },
         handler: productController.getListByCategory
-    });
+    })
+
+    server.route({
+        method:'GET',
+        
+        path:'/products/bestseller',
+        options:{
+            description: 'Get bestseller products',
+            tags:['api','products']
+        },
+        handler: productController.findBestSellerProducts   
+    })
 
     server.route({
         method:'GET',
@@ -22,5 +33,5 @@ module.exports = (server) => {
             
         },
         handler: productController.getById
-    });
+    })
 }
