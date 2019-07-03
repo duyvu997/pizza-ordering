@@ -48,8 +48,10 @@ const login = async (useremail, password) => {
     
         // at here match == true: --> return a token.      
         const token = tokenTools.genarateToken(user._id, user.userName, user.userEmail);
-        
-        return token;
+        console.log(token);
+        const obj = {token: token, data:  user}
+        console.log(obj);
+        return obj;
 
     } catch (err) {
         console.log('Something wrong in login function');

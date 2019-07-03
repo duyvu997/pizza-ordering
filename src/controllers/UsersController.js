@@ -45,15 +45,13 @@ module.exports.login = async (req, h) => {
         }
      
         const result = await services.login(userEmail, userPassword);
-        
+        console.log(result)
         if (ERROR.Code.INVALID === result || ERROR.Code.NOT_FOUND === result){
             const obj =  {statusCode: ERROR.Code.INVALID, message: ERROR.Message.Invalid}
             return h.response(obj);
         }
 
-        const obj ={statusCode: ERROR.Code.SUCCESS , accessToken: result }
-
-        return h.response(obj);
+        return h.response(result).code(200);
 
     } catch (err) {
         throw err;
