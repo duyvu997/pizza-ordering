@@ -21,9 +21,9 @@ module.exports.register = async (req, h) => {
             });
         }
 
-        const obj = {statusCode: ERROR.Code.CREATE, accessToken: result};
+      
 
-        return h.response(obj);
+        return h.response(result).code(200);
 
     } catch (err) {
         return h.response(err).code(500);

@@ -13,16 +13,20 @@ const create = async function (username, useremail, userpassword) {
         if (isExist) {
             return ERROR.Code.ALREADY_EXIT
         };
-       
+
         let user = new Users();
         user.userName = username;
         user.userEmail = useremail;
         hashTools.cryptPassword(username, userpassword);
-        const userDB = await user.save();   
-       
-        const token = tokenTools.genarateToken(userDB._id, userDB.userName, userDB.userEmail);
+        const userDB = await user.save();
 
-        return token;
+        const token = tokenTools.genarateToken(userDB._id, userDB.userName, userDB.userEmail);
+        const obj = {
+            token: token,
+            email: userDB.userEmail,
+            name: userDB.userName
+        }
+        return obj;
 
     } catch (err) {
         throw err;
@@ -35,7 +39,7 @@ const login = async (useremail, password) => {
         const user = await Users.findOne({
             userEmail: useremail
         });
-    
+
         if (!user) {
             return ERROR.Code.NOT_FOUND;
         }
@@ -45,11 +49,15 @@ const login = async (useremail, password) => {
         if (!match) {
             return ERROR.Code.INVALID;
         }
-    
+
         // at here match == true: --> return a token.      
         const token = tokenTools.genarateToken(user._id, user.userName, user.userEmail);
         console.log(token);
-        const obj = {token: token, data:  user}
+        const obj = {
+            token: token,
+            name: user.userName,
+            email: user.userEmail
+        }
         console.log(obj);
         return obj;
 
@@ -64,7 +72,7 @@ const login = async (useremail, password) => {
 const getProfile = async function (accessToken) {
     try {
         const user = tokenTools.verifyToken(accessToken);
-        
+
         return await Users.getById(user.userID);
     } catch (err) {
         throw err;
