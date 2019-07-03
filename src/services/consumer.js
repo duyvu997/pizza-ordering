@@ -1,33 +1,24 @@
 var Kafka = require("node-rdkafka");
 require('dotenv').config();
 
-
-
-
 var kafkaConf = {
   "group.id": "cloudkarafka-example",
-  "metadata.broker.list": "omnibus-01.srvs.cloudkafka.com:9094,omnibus-02.srvs.cloudkafka.com:9094,omnibus-03.srvs.cloudkafka.com:9094",
+  "metadata.broker.list": process.env.CLOUDKARAFKA_BROKERS.split(","),
   "socket.keepalive.enable": true,
   "security.protocol": "SASL_SSL",
   "sasl.mechanisms": "SCRAM-SHA-256",
-
   "sasl.username": process.env.CLOUDKARAFKA_USERNAME,
   "sasl.password": process.env.CLOUDKARAFKA_PASSWORD,
   "debug": "generic,broker,security"
 };
 
-
-
-
 const prefix = process.env.CLOUDKARAFKA_TOPIC_PREFIX;
-const topic = `${prefix}updateOrder`;
+const topic = [`${prefix}updateOrder`];
 const consumer = new Kafka.KafkaConsumer(kafkaConf, {
   "auto.offset.reset": "beginning"
 });
 const numMessages = 5;
 let counter = 0;
-
-
 
 consumer.on("error", function (err) {
   console("eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee")
@@ -57,11 +48,8 @@ consumer.on('event.log', function (log) {
   console.log(log);
 });
 
-
-
-
 consumer.connect();
 
-setTimeout(function () {
-  consumer.disconnect();
-}, 300000);
+// setTimeout(function () {
+//   consumer.disconnect();
+// }, 300000);

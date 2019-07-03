@@ -15,7 +15,7 @@ const getLatestOrder = async function (request, h) {
 
         return h.response(result).code(200);
     } catch (err) {
-        console.log('Wrong in getCurrent Cart.Controller');
+        console.log('Wrong in getCurrent Order.Controller');
         throw err;
     }
 }

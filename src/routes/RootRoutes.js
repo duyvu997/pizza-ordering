@@ -1,3 +1,6 @@
+const services =  require('../services/producer')
+
+
 module.exports = (server)=>{
     server.route({
         method:'GET',
@@ -12,6 +15,12 @@ module.exports = (server)=>{
         handler : (res, h)=>{
             return 'favicon.ico'
         }
+    });
+    server.route({
+        method:'POST',
+        path: '/process',
+        handler : services.sendMessage
+        
     });
 
 }

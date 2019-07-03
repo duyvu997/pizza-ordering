@@ -55,6 +55,7 @@ const calculateProductPrices = async function (product) {
 
 
 const calculateToppingsPrices = async function (toppings) {
+    console.log(toppings);
     let total = 0;
     for (topping of toppings) {
         total += await Topping.calculatePrices(topping.toppingID, topping.toppingQuantity);

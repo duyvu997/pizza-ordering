@@ -27,7 +27,10 @@ toppingSchema.statics.getById = async function getById(toppingID) {
 
 toppingSchema.statics.calculatePrices = async function calculatePrices(toppingID, quantity) {
     const topping  = await Topping.getById(toppingID);
-    // console.log(topping);
+    if(!topping){
+        return 0;
+    }
+    console.log(topping);
     return topping.toppingPrice*quantity;
 
 };
