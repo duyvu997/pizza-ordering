@@ -45,7 +45,7 @@ module.exports = (server) => {
   //   path: '/process',
   //   options: {
   //     validate: services.validatePayload,
-  //     handler: services.sendMesssage
+  //     handler: services.sendMessage
   //   }
   // })
 }

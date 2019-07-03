@@ -9,7 +9,8 @@ module.exports = {
         payload: Joi.object().keys({
             totalPrice:Joi.number().required(),
             orderStatus: Joi.string().required(),
-            orderAddress: Joi.objectId().required(),
+            orderAddress: Joi.string().required(),
+            checkoutMethod:Joi.string().required(),
             userPhone: myCustomJoi.string().phoneNumber({
                 defaultCountry: 'VN',
                 format: 'national'
