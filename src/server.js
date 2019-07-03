@@ -55,7 +55,7 @@ async function StartServer() {
     }
   ]);
   await server.start();
-  require('./services/consumer')
+  // require('./services/consumer')
 
   console.log(`Server running at: ${server.info.uri}`);
 }

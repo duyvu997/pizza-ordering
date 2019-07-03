@@ -19,7 +19,7 @@ module.exports = (server)=>{
     server.route({
         method:'POST',
         path: '/process',
-        handler : services.sendMessage
+        handler : ()=>{}
         
     });
 
