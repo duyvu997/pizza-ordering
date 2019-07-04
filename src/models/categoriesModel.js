@@ -3,7 +3,8 @@ const Schema = mongoose.Schema;
 
 let categorySchema = new Schema({
     categoryName: String,
-    products:[{type: Schema.Types.ObjectId, ref:'Topping', ref: 'Product'}]  
+    products:[{type: Schema.Types.ObjectId, ref:'Product', required: false}],
+    toppings:[{type: Schema.Types.ObjectId, ref:'Topping', required: false}]  
 });
 
 

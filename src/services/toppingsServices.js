@@ -16,7 +16,7 @@ const findTopings = async (cateName) => {
     try {
         let toppings = await Category.findOne({
             categoryName: cateName
-        }).populate('products');
+        }).populate('toppings');
         return toppings;
     } catch (err) {
         throw err
