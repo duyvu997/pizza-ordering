@@ -27,10 +27,7 @@ let orderSchema = new Schema({
     },
     orderDate: Schema.Types.Date,
     orderStatus: String,
-    orderAddress: {
-        type: Schema.Types.ObjectId,
-        ref: 'Address'
-    },
+    orderAddress: String,
     userPhone: String,
     cartItems: [cartItemSchema]
 });

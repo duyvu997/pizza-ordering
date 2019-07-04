@@ -34,11 +34,13 @@ module.exports = (server) => {
     method: 'GET',
     path: '/orders',
     options: {
+      handler: orderController.getLatestOrder,
+      // validate: orderValidate.getCurrent,
       description: 'Get current user\'s order',
       notes: ' Require token of user in header request',
       tags: ['api', 'orders']
-    },
-    handler: orderController.getLatestOrder
+    }
+    
   });
   // server.route({
   //   method: 'POST',

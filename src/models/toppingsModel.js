@@ -30,7 +30,7 @@ toppingSchema.statics.calculatePrices = async function calculatePrices(toppingID
     if(!topping){
         return 0;
     }
-    console.log(topping);
+    // console.log(topping);
     return topping.toppingPrice*quantity;
 
 };

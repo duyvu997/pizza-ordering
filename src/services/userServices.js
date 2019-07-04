@@ -50,7 +50,8 @@ const login = async (useremail, password) => {
             return ERROR.Code.INVALID;
         }
 
-        // at here match == true: --> return a token.      
+        // at here match == true: --> return a token.    
+        console.log(user._id)  ;
         const token = tokenTools.genarateToken(user._id, user.userName, user.userEmail);
         console.log(token);
         const obj = {
@@ -66,8 +67,6 @@ const login = async (useremail, password) => {
         throw err;
     }
 }
-
-
 
 const getProfile = async function (accessToken) {
     try {

@@ -6,6 +6,9 @@ Joi.objectId = require('joi-objectid')(Joi);
 
 module.exports = {
     create: {
+        headers: Joi.object().keys({
+            authorization: Joi.string().required()
+        }).unknown(),
         payload: Joi.object().keys({
             totalPrice:Joi.number().required(),
             orderStatus: Joi.string().required(),
@@ -28,4 +31,9 @@ module.exports = {
 
         })
     },
+    getCurrent :{
+        headers: Joi.object().keys({
+            authorization: Joi.string().required()
+        }),
+    }
 }

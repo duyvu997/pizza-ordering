@@ -4,11 +4,11 @@ const ERROR =  require('../configuration/errorConstant');
 
 const getLatestOrder = async function (request, h) {
     try {
-
+        console.log(request.headers)
         const accessToken = request.headers.accesstoken;
-        
+        console.log(accessToken)
         const result = await services.getLatestOrder(accessToken);
-
+        console.log(result);
         if (ERROR.Message.InvalidToken === result){
             return h.response(result).code(400);
         }
@@ -29,7 +29,7 @@ const create = async function (request, h) {
         const cartItems   = request.payload.cartItems;
         const totalPrice  = request.payload.totalPrice;
         const checkoutMethod = request.payload.checkoutMethod;
-        
+        // console.log(accessToken)
         
         const result = await services.create(accessToken,orStatus,orAddress,usPhone, cartItems,totalPrice);
 

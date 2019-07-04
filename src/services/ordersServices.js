@@ -11,6 +11,7 @@ const getLatestOrder = async function (accessToken) {
     try {
 
         const user = tokenTools.verifyToken(accessToken);
+        console.log(user);
         if (ERROR.Code.FAILD_TO_VERIFY_TOKEN === user) {
 
             const message = ERROR.Message.InvalidToken;
@@ -34,28 +35,28 @@ const getTotalPrices = async function (cartItems) {
     let totalPrice = 0;
     for (item of cartItems) {
 
-        const productCost = await calculateProductPrices(item)
+        // const productCost = await getPrices(item)
+        const productCost = await Products.getPrices(item.productID, item.productSize)
         console.log(productCost);
         const toppingCost = await calculateToppingsPrices(item.toppings)
-        console.log(toppingCost);
+        // console.log(toppingCost);
 
-        totalPrice += productCost + toppingCost;
-        // console.log(totalPrice);
+        totalPrice += (productCost + toppingCost) * item.quantity;
+        console.log(item.quantity);
 
     }
     return totalPrice;
 }
 
-const calculateProductPrices = async function (product) {
-
-    const price = await Products.getPrices(product.productID, product.productSize)
-    console.log(price);
-    return price * product.quantity
-}
+// const calculateProductPrices = async function (product) {
+//     const price = await Products.getPrices(product.productID, product.productSize)
+//     console.log(price);
+//     return price * product.quantity
+// }
 
 
 const calculateToppingsPrices = async function (toppings) {
-    console.log(toppings);
+    // console.log(toppings);
     let total = 0;
     for (topping of toppings) {
         total += await Topping.calculatePrices(topping.toppingID, topping.toppingQuantity);
