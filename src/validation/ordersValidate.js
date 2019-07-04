@@ -6,14 +6,15 @@ Joi.objectId = require('joi-objectid')(Joi);
 
 module.exports = {
     create: {
-        headers: Joi.object().keys({
-            authorization: Joi.string().required()
-        }).unknown(),
+        // headers: Joi.object().keys({
+        //     authorization: Joi.string().required()
+        // }).unknown(),
         payload: Joi.object().keys({
             totalPrice:Joi.number().required(),
             orderStatus: Joi.string().required(),
             orderAddress: Joi.string().required(),
-            checkoutMethod:Joi.string().required(),
+            checkoutMethod:Joi.string(),
+            userName: Joi.string(),
             userPhone: myCustomJoi.string().phoneNumber({
                 defaultCountry: 'VN',
                 format: 'national'
