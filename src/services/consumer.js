@@ -3,7 +3,7 @@ require('dotenv').config();
 
 var kafkaConf = {
   "group.id": "cloudkarafka-example",
-  "metadata.broker.list": process.env.CLOUDKARAFKA_BROKERS.split(","),
+  // "metadata.broker.list": process.env.CLOUDKARAFKA_BROKERS.split(","),
   // "metadata.broker.list": "omnibus-01.srvs.cloudkafka.com:9094,omnibus-02.srvs.cloudkafka.com:9094,omnibus-03.srvs.cloudkafka.com:9094",
   "socket.keepalive.enable": true,
   "security.protocol": "SASL_SSL",

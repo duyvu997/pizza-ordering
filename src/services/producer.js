@@ -4,7 +4,7 @@ require('dotenv').config();
 
 const kafkaConf = {
   "group.id": "cloudkarafka-example",
-  "metadata.broker.list": process.env.CLOUDKARAFKA_BROKERS.split(','),
+  // "metadata.broker.list": process.env.CLOUDKARAFKA_BROKERS.split(','),
  
   "socket.keepalive.enable": true,
   "security.protocol": "SASL_SSL",
