@@ -1,4 +1,4 @@
-const services =  require('../services/producer')
+const services =  require('../services/kafka/producer')
 
 
 module.exports = (server)=>{

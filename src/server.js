@@ -2,12 +2,14 @@ const Hapi = require("hapi");
 const HapiSwagger = require('hapi-swagger');
 const Inert = require('@hapi/inert');
 const Vision = require('@hapi/vision');
-const Database = require('./database/init');
+const Database = require('./middleware/database/initMongoDB');
 const Qs =  require('qs')
+const Consumer = require('../src/services/kafka/consumer')
 require('dotenv').config();
 
 
 
+console.log(process.env.CLOUDKARAFKA_BROKERS)
 
 
 
@@ -15,7 +17,7 @@ require('dotenv').config();
 async function StartServer() {
   await Database.connect;
   const server = new Hapi.server({
-    // host: process.env.HOST || 'localhost',
+    // host: process.env.HOST,
     port: process.env.PORT || 3636,
     query: {
       parser : (query)=> Qs.parse(query)
@@ -25,7 +27,8 @@ async function StartServer() {
     {
       name: 'Root',
       register: require('./routes/RootRoutes')
-    },{
+    },
+    {
       name: 'User-routes',
       register: require('./routes/UserRoutes')
     },
@@ -54,8 +57,10 @@ async function StartServer() {
       plugin: HapiSwagger,
     }
   ]);
+
   await server.start();
-  // require('./services/consumer')
+  
+  // Consumer
 
   console.log(`Server running at: ${server.info.uri}`);
 }

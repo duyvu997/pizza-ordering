@@ -1,7 +1,7 @@
 const orderController = require('../controllers/OrdersController');
 const orderValidate = require('../validation/ordersValidate');
 const Joi = require('@hapi/joi');
-const services = require('../services/producer');
+
 
 module.exports = (server) => {
   server.route({

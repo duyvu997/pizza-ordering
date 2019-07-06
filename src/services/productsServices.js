@@ -2,7 +2,14 @@ const Products = require('../models/productsModel');
 const Orders = require('../models/ordersModel');
 const Category = require('../models/categoriesModel');
 
-
+const findAll =  async function (){
+    try {
+        const result = await Products.find({});
+        return result;
+    } catch (err) {
+        throw err;
+    }
+}
 
 const findProducts = async (cateName) => {
     try {
@@ -30,36 +37,23 @@ const findProductsByCategory = async function (categoryName) {
         const result = await findProducts(categoryName);
         console.log(result);
         return result;
-
     } catch (err) {
         throw err;
     }
 }
 
-
-const findBestSeller =  async function(){
+const findBestSellerProducts =  async function(){
     try {
-        const listBestSeller = await Orders.bestSeller();
-        return listBestSeller
+        const lstBestSeller = await Orders.bestSeller();
+        return lstBestSeller
     } catch (err) {
         throw err;
     }
 }
-const findAll =  async function (){
-    try {
-        const result = await Products.find({});
-        return result;
-    } catch (err) {
-        throw err;
-    }
-}
-
 
 module.exports = {
     getById,
     findProductsByCategory,
-    findBestSeller,
-    findAll
-    
-    
+    findBestSellerProducts,
+    findAll   
 }

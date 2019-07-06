@@ -20,13 +20,7 @@ const create = async function (username, useremail, userpassword) {
         hashTools.cryptPassword(username, userpassword);
         const userDB = await user.save();
 
-        const token = tokenTools.genarateToken(userDB._id, userDB.userName, userDB.userEmail);
-        const obj = {
-            token: token,
-            email: userDB.userEmail,
-            name: userDB.userName
-        }
-        return obj;
+        return userDB;
 
     } catch (err) {
         throw err;

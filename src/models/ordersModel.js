@@ -25,9 +25,12 @@ let orderSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: 'User'
     },
+
     orderDate: Schema.Types.Date,
     orderStatus: String,
     orderAddress: String,
+    checkoutMethod:String,
+    receiverName:String,
     userPhone: String,
     cartItems: [cartItemSchema]
 });

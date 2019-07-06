@@ -13,7 +13,7 @@ module.exports.register = async (req, h) => {
         } = req.payload;
 
         const result = await services.create(userName, userEmail, userPassword);
-
+        
         if (ERROR.Code.ALREADY_EXIT === result ) {
             return h.response({
                 statusCode: ERROR.Code.ALREADY_EXIT,
@@ -21,14 +21,15 @@ module.exports.register = async (req, h) => {
             });
         }
 
-      
+        if(!result) {
+            return h.response({message:"Internal Server Error"}).code(500);
+        }
 
-        return h.response(result).code(200);
+        return h.response({message:"Register Success"}).code(200);
 
     } catch (err) {
         return h.response(err).code(500);
     }
-
 }
 
 module.exports.login = async (req, h) => {

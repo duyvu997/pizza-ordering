@@ -4,7 +4,7 @@ const Topping = require('../models/toppingsModel');
 
 const tokenTools = require('../middleware/auth/token/token');
 const ERROR = require('../configuration/errorConstant');
-const moment = require('moment');
+const Constant = require('../configuration/constant')
 
 
 const getLatestOrder = async function (accessToken) {
@@ -32,29 +32,21 @@ const getLatestOrder = async function (accessToken) {
 
 }
 const getTotalPrices = async function (cartItems) {
-    let totalPrice = 0;
+    let totalPrice = 0 + Constant.SHIP_FEE;
     for (item of cartItems) {
 
         // const productCost = await getPrices(item)
         const productCost = await Products.getPrices(item.productID, item.productSize)
-        console.log(productCost);
+        // console.log(productCost);
         const toppingCost = await calculateToppingsPrices(item.toppings)
         // console.log(toppingCost);
 
         totalPrice += (productCost + toppingCost) * item.quantity;
-        console.log(item.quantity);
+        // console.log(item.quantity);
 
     }
     return totalPrice;
 }
-
-// const calculateProductPrices = async function (product) {
-//     const price = await Products.getPrices(product.productID, product.productSize)
-//     console.log(price);
-//     return price * product.quantity
-// }
-
-
 const calculateToppingsPrices = async function (toppings) {
     // console.log(toppings);
     let total = 0;
@@ -62,11 +54,9 @@ const calculateToppingsPrices = async function (toppings) {
         total += await Topping.calculatePrices(topping.toppingID, topping.toppingQuantity);
     }
     return total;
-
 }
 
-
-const create = async function (accessToken, orderStatus, orderAddress, userPhone, cartItems,totalPrice) {
+const create = async function (accessToken, orderStatus, orderAddress, rcvName, userPhone, cartItems, checkoutMethod) {
     try {
         const user = tokenTools.verifyToken(accessToken);
         if (ERROR.Code.FAILD_TO_VERIFY_TOKEN === user) {
@@ -83,16 +73,16 @@ const create = async function (accessToken, orderStatus, orderAddress, userPhone
         order.orderDate = Date.now();
         order.orderStatus = orderStatus;
         order.orderAddress = orderAddress;
+        order.receiverName = rcvName;
         order.userPhone = userPhone;
-        order.cartItems = cartItems
-        
-        let reCalculate = await getTotalPrices(order.cartItems);
-        console.log(reCalculate);
-        if (totalPrice != reCalculate){
-            return ERROR.Code.INVALID_TOTALPRICE;
-        }
+        order.cartItems = cartItems;
+        order.checkoutMethod = checkoutMethod;
+
+        let TotalPrice = await getTotalPrices(order.cartItems);
+      
         const result = await order.save()
-        return result;
+        
+        return TotalPrice;
 
     } catch (err) {
         throw err;

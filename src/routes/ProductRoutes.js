@@ -3,35 +3,44 @@ const productValidate =  require('../validation/productsValidate');
 
 module.exports = (server) => { 
     server.route({
-        method:'GET',
-        
+        method:'GET',        
         path:'/products',
         options:{
-            description: 'Get products by category query content like: /product?categories=classic',
+            handler: productController.getProductsByCategory,
+            validate: productValidate.queryProduct,
+            description: 'Get products by category query content like: /product?categories=classic/prenium/signature/  or not query param',
             tags:['api','products']
-        },
-        handler: productController.getListByCategory
+        }        
     })
 
     server.route({
-        method:'GET',
-        
+        method:'GET',        
         path:'/products/bestseller',
         options:{
-            description: 'Get bestseller products',
+            handler: productController.findBestSellerProducts,
+            description: 'Get bestseller products  ',
             tags:['api','products']
-        },
-        handler: productController.findBestSellerProducts   
+        }
     })
 
     server.route({
         method:'GET',
         path:'/products/{id}',
         options:{
+            handler: productController.getById,
+            validate: productValidate.getById,
             description:'Get details of specific product',
             tags:['api', 'product'],
-            
-        },
-        handler: productController.getById
+        }        
+    })
+
+    server.route({
+        method:'POST',
+        path:'/products',
+        options:{
+            handler: productController.create,
+            description:'Create new product',
+            tags:['api', 'product'],            
+        },        
     })
 }
