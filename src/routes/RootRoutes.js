@@ -1,4 +1,4 @@
-const services =  require('../services/kafka/producer')
+// const services =  require('../services/kafka/producer')
 
 
 module.exports = (server)=>{
@@ -16,14 +16,14 @@ module.exports = (server)=>{
             return 'favicon.ico'
         }
     });
-    server.route({
-        method:'POST',
-        path: '/process',
-        options:{
-            validate: services.validatePayload
-        },
-        handler : services.sendMessage
+    // server.route({
+    //     method:'POST',
+    //     path: '/process',
+    //     options:{
+    //         validate: services.validatePayload
+    //     },
+    //     handler : services.sendMessage
         
-    });
+    // });
 
 }
