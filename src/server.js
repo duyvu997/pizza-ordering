@@ -4,7 +4,7 @@ const Inert = require('@hapi/inert');
 const Vision = require('@hapi/vision');
 const Database = require('./middleware/database/initMongoDB');
 const Qs =  require('qs')
-const Consumer = require('../src/services/kafka/consumer')
+// const Consumer = require('../src/services/kafka/consumer')
 require('dotenv').config();
 
 
