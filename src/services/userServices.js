@@ -1,4 +1,4 @@
-const Users = require('../models/usersModel');
+const Users = require('../models/users/usersModel');
 const hashTools = require('../middleware/hash/hash');
 const tokenTools = require('../middleware/auth/token/token');
 const Boom = require('@hapi/boom');

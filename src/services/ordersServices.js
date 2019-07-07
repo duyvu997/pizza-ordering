@@ -1,6 +1,6 @@
-const Orders = require('../models/ordersModel');
-const Products = require('../models/productsModel');
-const Topping = require('../models/toppingsModel');
+const Orders = require('../models/orders/ordersModel');
+const Products = require('../models/products/productsModel');
+const Topping = require('../models/toppings/toppingsModel');
 
 const tokenTools = require('../middleware/auth/token/token');
 const ERROR = require('../configuration/errorConstant');
@@ -11,7 +11,7 @@ const getLatestOrder = async function (accessToken) {
     try {
 
         const user = tokenTools.verifyToken(accessToken);
-        console.log(user);
+        // console.log(user);
         if (ERROR.Code.FAILD_TO_VERIFY_TOKEN === user) {
 
             const message = ERROR.Message.InvalidToken;
@@ -21,16 +21,15 @@ const getLatestOrder = async function (accessToken) {
         }
         let order = await Orders.getCurrentCartOfUser(user.userID);
         let totalPrices = await     getTotalPrices(order.cartItems);
-        console.log(totalPrices)
-
-
+        // console.log(totalPrices)
 
         return order;
     } catch (err) {
         throw err;
     }
-
 }
+
+
 const getTotalPrices = async function (cartItems) {
     let totalPrice = 0 + Constant.SHIP_FEE;
     for (item of cartItems) {
@@ -47,6 +46,8 @@ const getTotalPrices = async function (cartItems) {
     }
     return totalPrice;
 }
+
+
 const calculateToppingsPrices = async function (toppings) {
     // console.log(toppings);
     let total = 0;
@@ -55,6 +56,7 @@ const calculateToppingsPrices = async function (toppings) {
     }
     return total;
 }
+
 
 const create = async function (accessToken, orderStatus, orderAddress, rcvName, userPhone, cartItems, checkoutMethod) {
     try {
@@ -90,8 +92,20 @@ const create = async function (accessToken, orderStatus, orderAddress, rcvName, 
 }
 
 
+const updateOrderStatus = async function (orderID, status){
+    try{
+        console.log(orderID, status)
+        const result =  await Orders.findByIdAndUpdate({_id:orderID}, {orderStatus: status});
+        return result;
+    }catch(err){
+        throw err;
+    }
+
+}
+
 
 module.exports = {
     getLatestOrder,
-    create
+    create,
+    updateOrderStatus
 }

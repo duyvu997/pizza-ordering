@@ -1,4 +1,4 @@
-const Address = require('../models/addressModel');
+const Address = require('../models/address/addressModel');
 const tokenTools = require('../middleware/auth/token/token');
 const ERROR = require('../configuration/errorConstant');
 

@@ -4,20 +4,15 @@ const Inert = require('@hapi/inert');
 const Vision = require('@hapi/vision');
 const Database = require('./middleware/database/initMongoDB');
 const Qs =  require('qs')
-// const Consumer = require('../src/services/kafka/consumer')
+const Consumer = require('../src/services/kafka/consumer.UpdateStatusOrder')
 require('dotenv').config();
-
-
-
-console.log(process.env.CLOUDKARAFKA_BROKERS)
-
 
 
 
 async function StartServer() {
   await Database.connect;
   const server = new Hapi.server({
-    // host: process.env.HOST,
+    host: process.env.HOST,
     port: process.env.PORT || 3636,
     query: {
       parser : (query)=> Qs.parse(query)
@@ -60,7 +55,7 @@ async function StartServer() {
 
   await server.start();
   
-  // Consumer
+  Consumer
 
   console.log(`Server running at: ${server.info.uri}`);
 }

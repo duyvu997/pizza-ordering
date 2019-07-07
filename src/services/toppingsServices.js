@@ -1,5 +1,6 @@
-const Topping = require('../models/toppingsModel');
-const Category = require('../models/categoriesModel');
+const Topping = require('../models/toppings/toppingsModel');
+const Category = require('../models/categories/categoriesModel');
+const ToppingsDTO =  require('../models/toppings/toppings.DTO');
 
 
 const getAll = async function () {
@@ -17,7 +18,8 @@ const findTopings = async (cateName) => {
         let toppings = await Category.findOne({
             categoryName: cateName
         }).populate('toppings');
-        return toppings;
+        const toppingsData = ToppingsDTO.convertReturnTopingsByCategory(toppings);
+        return toppingsData;
     } catch (err) {
         throw err
     }

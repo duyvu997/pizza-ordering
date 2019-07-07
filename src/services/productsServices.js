@@ -1,6 +1,7 @@
-const Products = require('../models/productsModel');
-const Orders = require('../models/ordersModel');
-const Category = require('../models/categoriesModel');
+const Products = require('../models/products/productsModel');
+const ProductsDTO =  require('../models/products/products.DTO');
+const Orders = require('../models/orders/ordersModel');
+const Category = require('../models/categories/categoriesModel');
 
 const findAll =  async function (){
     try {
@@ -11,22 +12,9 @@ const findAll =  async function (){
     }
 }
 
-const findProducts = async (cateName) => {
-    try {
-        let products = await Category.findOne({
-                categoryName: cateName
-            }).populate('products');
-            return  products;
-
-    } catch (err) {
-        throw err
-    }
-}
-
 const getById = async function (productID) {
     try {
-        const product = await Products.getById(productID);
-        return product;
+        return product = await Products.getById(productID);         
     } catch (err) {
         throw err;
     }
@@ -34,18 +22,23 @@ const getById = async function (productID) {
 
 const findProductsByCategory = async function (categoryName) {
     try {
-        const result = await findProducts(categoryName);
-        console.log(result);
-        return result;
+        let products = await Category.findOne({
+                categoryName: categoryName
+            }).populate('products');
+        const productsData = ProductsDTO.convertReturnProductsByCategory(products); 
+        return  productsData;
+
     } catch (err) {
-        throw err;
+        throw err
     }
 }
 
 const findBestSellerProducts =  async function(){
     try {
         const lstBestSeller = await Orders.bestSeller();
-        return lstBestSeller
+        console.log(lstBestSeller);
+        const bestSellerData =  ProductsDTO.convertReturnBestSellerProducts(lstBestSeller);
+        return bestSellerData
     } catch (err) {
         throw err;
     }
