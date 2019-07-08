@@ -7,14 +7,14 @@ module.exports = {
         }
     },
     convertReturnBestSellerProducts: function (aggreateData){
-        return aggreateData.map(x=>({
-            _id             : x.product._id,
-            productName     : x.product.productName,
-            productCategory : x.product.productCategory, 
-            productDesc     : x.product.productDesc,           
-            productNutrition: x.product.productNutrition,
-            productCrust    : x.product.productCrust,
-            productPrices   : x.product.productPrices
+        return aggreateData.map(item=>({
+            _id             : item.product._id,
+            productName     : item.product.productName,
+            productCategory : item.product.productCategory, 
+            productDesc     : item.product.productDesc,           
+            productNutrition: item.product.productNutrition,
+            productCrust    : item.product.productCrust,
+            productPrices   : item.product.productPrices
         }))
     }
 }   

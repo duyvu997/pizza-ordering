@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
+const Address =  require('../address/addressModel');
 
 
 let userSchema = new Schema({
@@ -7,6 +8,9 @@ let userSchema = new Schema({
     userName: String,
     userEmail: String,
     userPassword: String,
+    userAddress: String,
+    userPhone: String,
+    userPoint: Number
 
 });
 
@@ -16,10 +20,10 @@ userSchema.statics.updatePassword = function updatePassword(username, somepasswo
             userName: username // condition
         }, {
             $set: {
-                userPassword: somepassword //value to update
+                userPassword: somepassword 
             }
         },
-        function (err) { // call back function
+        function (err) { 
             if (err) {
                 throw err;
             }
@@ -39,6 +43,46 @@ userSchema.statics.getById = function getById(userId) {
                 return Boom.internal('Error in Database');
             }
         });
+}
+
+
+userSchema.statics.updateDefaultAddress = async function updateDefaultAddress(userID, address) {
+    const newAds = new Address();
+    newAds.isDefault =  true;
+    newAds.addressDesc =  address;
+    newAds.userID =  userID;
+    const adsID = await newAds.save();
+    console.log(adsID);
+
+    console.log("update Address");
+    this.findOneAndUpdate({
+        _id: userID // condition
+    }, {
+        $set: {
+            userAddress: address 
+        }
+    },
+    function (err) { // call back function
+        if (err) {
+            throw err;
+        }
+    })
+}
+userSchema.statics.updateDefaultPhone = function updateDefaultPhone(userID, phoneNumber) {
+    console.log("update Phone");
+    console.log(userID);
+    this.findOneAndUpdate({
+        _id: userID // condition
+    }, {
+        $set: {
+            userPhone: phoneNumber 
+        }
+    },
+    function (err) { // call back function
+        if (err) {
+            throw err;
+        }
+    })
 }
 
 const User = mongoose.model('User', userSchema);

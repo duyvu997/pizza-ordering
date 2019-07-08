@@ -10,7 +10,9 @@ module.exports = {
             accesstoken: Joi.string().required()
         }).unknown(),
         payload: Joi.object().keys({
-            orderStatus: Joi.string().valid(["submitted", "cancelled"]).required(),
+            isAddressDefault: Joi.boolean().optional(),
+            isPhoneDefault: Joi.boolean().optional(),
+            orderStatus: Joi.string().valid(["submitted", "processed","cancelled"]).required(),
             orderAddress: Joi.string().required(),
             checkoutMethod:Joi.string(),
             receiverName: Joi.string(),
@@ -29,7 +31,8 @@ module.exports = {
                 }))
             })).required()
 
-        }), failAction: (req,h, error) => {     
+        }), failAction: (req,h, error) => {    
+             console.log(error.details[0]);
             return error.isJoi
               ? h.response({message:error.details[0].message}).code(400).takeover()
               : h.response(error).code(500).takeover();

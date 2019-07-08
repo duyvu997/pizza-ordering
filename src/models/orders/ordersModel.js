@@ -32,12 +32,13 @@ let orderSchema = new Schema({
     checkoutMethod:String,
     receiverName:String,
     userPhone: String,
-    cartItems: [cartItemSchema]
+    cartItems: [cartItemSchema],
+    totalPrice: Number
 });
 
 orderSchema.statics.getCurrentCartOfUser = function getCurrentCartOfUser(userId) {
     try {
-        return this.findOne({
+        return this.find({
             userID: userId
         }, function (err, doc) {
             if (err) {

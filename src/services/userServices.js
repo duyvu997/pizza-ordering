@@ -1,7 +1,7 @@
 const Users = require('../models/users/usersModel');
 const hashTools = require('../middleware/hash/hash');
 const tokenTools = require('../middleware/auth/token/token');
-const Boom = require('@hapi/boom');
+const userDTO =  require('../models/users/user.DTO');
 const ERROR = require('../configuration/errorConstant');
 
 
@@ -48,13 +48,10 @@ const login = async (useremail, password) => {
         console.log(user._id)  ;
         const token = tokenTools.genarateToken(user._id, user.userName, user.userEmail);
         console.log(token);
-        const obj = {
-            token: token,
-            name: user.userName,
-            email: user.userEmail
-        }
-        console.log(obj);
-        return obj;
+       
+        const data =  userDTO.convertLoginDataReturn(token, user)
+        console.log(data);
+        return data;
 
     } catch (err) {
         console.log('Something wrong in login function');
@@ -65,8 +62,9 @@ const login = async (useremail, password) => {
 const getProfile = async function (accessToken) {
     try {
         const user = tokenTools.verifyToken(accessToken);
-
-        return await Users.getById(user.userID);
+        const userData = await Users.getById(user.userID);
+        const result =  userDTO.convertGetProfileDataReturn(userData);
+        return result;
     } catch (err) {
         throw err;
     }

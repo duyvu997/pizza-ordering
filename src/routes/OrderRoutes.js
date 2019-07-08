@@ -34,7 +34,7 @@ module.exports = (server) => {
     method: 'GET',
     path: '/orders',
     options: {
-      handler: orderController.getLatestOrder,
+      handler: orderController.getAllOrders,
       // validate: orderValidate.getCurrent,
       description: 'Get current user\'s order',
       notes: ' Require token of user in header request',
@@ -42,12 +42,5 @@ module.exports = (server) => {
     }
     
   });
-  // server.route({
-  //   method: 'POST',
-  //   path: '/process',
-  //   options: {
-  //     validate: services.validatePayload,
-  //     handler: services.sendMessage
-  //   }
-  // })
+  
 }

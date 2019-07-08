@@ -13,7 +13,7 @@ async function StartServer() {
   await Database.connect;
   const server = new Hapi.server({
     host: process.env.HOST,
-    port: process.env.PORT || 3636,
+    port: process.env.PORT || 3646,
     query: {
       parser : (query)=> Qs.parse(query)
     }

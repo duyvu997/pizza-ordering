@@ -3,8 +3,7 @@ const Schema = mongoose.Schema;
 
 let addressSchema =  new Schema({
     // _id: false,
-    userID:  Schema.Types.ObjectId,
-    orderID : Schema.Types.ObjectId,
+    userID:  Schema.Types.ObjectId,    
     addressDesc: String,
     isDefault : Boolean
 });

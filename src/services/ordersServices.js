@@ -1,26 +1,25 @@
 const Orders = require('../models/orders/ordersModel');
+const OrderDTO = require('../models/orders/orders.DTO');
 const Products = require('../models/products/productsModel');
 const Topping = require('../models/toppings/toppingsModel');
+const User = require('../models/users/usersModel');
 
 const tokenTools = require('../middleware/auth/token/token');
 const ERROR = require('../configuration/errorConstant');
 const Constant = require('../configuration/constant')
 
 
-const getLatestOrder = async function (accessToken) {
+const getAllOrders = async function (accessToken) {
     try {
 
         const user = tokenTools.verifyToken(accessToken);
-        // console.log(user);
+        
         if (ERROR.Code.FAILD_TO_VERIFY_TOKEN === user) {
-
-            const message = ERROR.Message.InvalidToken;
-
-            return message;
-            // return message and error code
+            return ERROR.Message.InvalidToken;          
         }
+
         let order = await Orders.getCurrentCartOfUser(user.userID);
-        let totalPrices = await     getTotalPrices(order.cartItems);
+        
         // console.log(totalPrices)
 
         return order;
@@ -58,9 +57,13 @@ const calculateToppingsPrices = async function (toppings) {
 }
 
 
-const create = async function (accessToken, orderStatus, orderAddress, rcvName, userPhone, cartItems, checkoutMethod) {
+const create = async function (accessToken, orderStatus, orderAddress, rcvName, userPhone, cartItems, checkoutMethod,isAddressDefault, isPhoneDefault) {
     try {
+
+
         const user = tokenTools.verifyToken(accessToken);
+        console.log(user);
+
         if (ERROR.Code.FAILD_TO_VERIFY_TOKEN === user) {
 
             const obj = {
@@ -70,21 +73,33 @@ const create = async function (accessToken, orderStatus, orderAddress, rcvName, 
             return obj;
             // return message and error code
         }
-        const order = new Orders();
-        order.userID = user.userID;
-        order.orderDate = Date.now();
-        order.orderStatus = orderStatus;
-        order.orderAddress = orderAddress;
-        order.receiverName = rcvName;
-        order.userPhone = userPhone;
-        order.cartItems = cartItems;
+
+        if(isAddressDefault){
+            User.updateDefaultAddress(user.userID, orderAddress);
+        }
+        if(isPhoneDefault){
+            User.updateDefaultPhone(user.userID, userPhone);
+        }
+
+
+
+
+        const order          = new Orders();
+        order.userID         = user.userID;
+        order.orderDate      = Date.now();
+        order.orderStatus    = orderStatus;
+        order.orderAddress   = orderAddress;
+        order.receiverName   = rcvName;
+        order.userPhone      = userPhone;
+        order.cartItems      = cartItems;
         order.checkoutMethod = checkoutMethod;
 
-        let TotalPrice = await getTotalPrices(order.cartItems);
+        let TotalPrice       = await getTotalPrices(order.cartItems);
+        order.totalPrice     = TotalPrice;
       
-        const result = await order.save()
-        
-        return TotalPrice;
+        const OrderSaved     = await order.save();
+        const result         = OrderDTO.convertCreateOrderReturn(OrderSaved);
+        return result;
 
     } catch (err) {
         throw err;
@@ -94,8 +109,9 @@ const create = async function (accessToken, orderStatus, orderAddress, rcvName, 
 
 const updateOrderStatus = async function (orderID, status){
     try{
-        console.log(orderID, status)
-        const result =  await Orders.findByIdAndUpdate({_id:orderID}, {orderStatus: status});
+        // console.log(orderID, status)
+        const result =  await Orders.findByIdAndUpdate({_id:orderID}, {orderStatus: status},{new:true});
+        // console.log(result)
         return result;
     }catch(err){
         throw err;
@@ -105,7 +121,7 @@ const updateOrderStatus = async function (orderID, status){
 
 
 module.exports = {
-    getLatestOrder,
+    getAllOrders,
     create,
     updateOrderStatus
 }
