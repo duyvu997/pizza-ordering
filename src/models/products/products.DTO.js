@@ -11,7 +11,8 @@ module.exports = {
             _id             : item.product._id,
             productName     : item.product.productName,
             productCategory : item.product.productCategory, 
-            productDesc     : item.product.productDesc,           
+            productDesc     : item.product.productDesc,     
+            productImage    : item.product.productImage,      
             productNutrition: item.product.productNutrition,
             productCrust    : item.product.productCrust,
             productPrices   : item.product.productPrices
