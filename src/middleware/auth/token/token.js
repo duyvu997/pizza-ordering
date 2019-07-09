@@ -2,13 +2,11 @@ const jwt = require('jsonwebtoken');
 const config = require('../../../configuration/envConfiguration');
 const ERROR = require('../../../configuration/errorConstant');
 
-const genarateToken = (userID, userName, userEmail) => {
+const genarateToken = (_id) => {
     try {
        
         let token = jwt.sign({
-                userID,
-                userName,
-                userEmail
+                _id
             },
             config.auth.secretKey, {
                 expiresIn: '2400h'

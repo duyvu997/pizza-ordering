@@ -14,21 +14,7 @@ let userSchema = new Schema({
 
 });
 
-userSchema.statics.updatePassword = function updatePassword(username, somepassword) {
 
-    this.findOneAndUpdate({
-            userName: username // condition
-        }, {
-            $set: {
-                userPassword: somepassword 
-            }
-        },
-        function (err) { 
-            if (err) {
-                throw err;
-            }
-        })
-}
 
 userSchema.statics.getById = function getById(userId) {
     return this.findOne({
@@ -45,15 +31,24 @@ userSchema.statics.getById = function getById(userId) {
         });
 }
 
+userSchema.statics.updatePassword = function updatePassword(username, somepassword) {
 
-userSchema.statics.updateDefaultAddress = async function updateDefaultAddress(userID, address) {
-    const newAds = new Address();
-    newAds.isDefault =  true;
-    newAds.addressDesc =  address;
-    newAds.userID =  userID;
-    const adsID = await newAds.save();
-    console.log(adsID);
+    this.findOneAndUpdate({
+            userName: username // condition
+        }, {
+            $set: {
+                userPassword: somepassword 
+            }
+        },
+        function (err) { 
+            if (err) {
+                throw err;
+            }
+        })
+}
 
+userSchema.statics.updateDefaultAddress =  function updateDefaultAddress(userID, address) {
+    
     console.log("update Address");
     this.findOneAndUpdate({
         _id: userID // condition

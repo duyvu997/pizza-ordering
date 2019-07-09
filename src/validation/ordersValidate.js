@@ -16,13 +16,13 @@ module.exports = {
             orderAddress: Joi.string().required(),
             checkoutMethod:Joi.string(),
             receiverName: Joi.string(),
-            userPhone: myCustomJoi.string().phoneNumber({
+            userPhone: myCustomJoi.string().length(10).phoneNumber({
                 defaultCountry: 'VN',
                 format: 'national'
-            }).required().min(10).max(10),
+            }).required(),
             cartItems: Joi.array().items(Joi.object().keys({
                 productID: Joi.objectId(),
-                productSize: Joi.string(),
+                productSize: Joi.string().valid( ["22","30","38"]),
                 quantity: Joi.number(),
                 crustType: Joi.string().valid(["thin", "classic", "cheese"]),
                 toppings: Joi.array().items( Joi.object().keys({
@@ -38,9 +38,24 @@ module.exports = {
               : h.response(error).code(500).takeover();
           }
     },
-    getCurrent :{
+    getAllOrders :{
         headers: Joi.object().keys({
-            authorization: Joi.string().required()
-        }),
+            accesstoken: Joi.string().required()
+        }).unknown(),failAction: (req,h, error) => {    
+            console.log(error.details[0]);
+           return error.isJoi
+             ? h.response({message:error.details[0].message}).code(400).takeover()
+             : h.response(error).code(500).takeover();
+         }
+    },
+    updateStatusOrder :{
+        payload: Joi.object().keys( {
+            status: Joi.string().valid(['processed', 'cancelled']).required()
+        }),failAction: (req,h, error) => {    
+            console.log(error.details[0]);
+           return error.isJoi
+             ? h.response({message:error.details[0].message}).code(400).takeover()
+             : h.response(error).code(500).takeover();
+         }
     }
 }

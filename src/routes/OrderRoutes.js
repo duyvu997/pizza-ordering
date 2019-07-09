@@ -35,12 +35,22 @@ module.exports = (server) => {
     path: '/orders',
     options: {
       handler: orderController.getAllOrders,
-      // validate: orderValidate.getCurrent,
+      validate: orderValidate.getAllOrders,
       description: 'Get current user\'s order',
       notes: ' Require token of user in header request',
       tags: ['api', 'orders']
     }
-    
   });
-  
+  server.route({
+    method: 'PUT',
+    path: '/orders/{id}',
+    options: {
+      handler: orderController.updateOrderStatus,  
+      validate: orderValidate.updateStatusOrder,    
+      description: 'Update current user\'s order',
+      notes: ' Require token of user in header request',
+      tags: ['api', 'orders']
+    }
+  });
+
 }

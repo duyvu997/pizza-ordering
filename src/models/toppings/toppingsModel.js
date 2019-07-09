@@ -24,14 +24,12 @@ toppingSchema.statics.getById = async function getById(toppingID) {
 };
 
 
-
-toppingSchema.statics.calculatePrices = async function calculatePrices(toppingID, quantity) {
+toppingSchema.statics.getPrice = async function getPrice(toppingID) {
     const topping  = await Topping.getById(toppingID);
     if(!topping){
         return 0;
     }
-    // console.log(topping);
-    return topping.toppingPrice*quantity;
+    return topping.toppingPrice;
 
 };
 

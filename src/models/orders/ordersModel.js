@@ -36,22 +36,18 @@ let orderSchema = new Schema({
     totalPrice: Number
 });
 
-orderSchema.statics.getCurrentCartOfUser = function getCurrentCartOfUser(userId) {
+orderSchema.statics.getHistoryOrders =async function getAllOrdersOfUser(userId) {
     try {
-        return this.find({
+        const result = await this.find({
             userID: userId
-        }, function (err, doc) {
-            if (err) {
-                throw err;
-            }
-            return doc;
-        });
+        }).sort( {orderDate:-1});
+        return result;
     } catch (err) {
         throw err;
     }
 }
 
-orderSchema.statics.bestSeller = async function bestSeller ()  {
+orderSchema.statics.findBestSeller = async function findBestSeller ()  {
     const result = await Order.aggregate([
         {
             $unwind: "$cartItems"

@@ -8,7 +8,7 @@ module.exports = (server) => {
         options:{
             description:'Create new address of user with user\'s access token',
             notes: 'Require user\' token.',
-            tags:['api', 'address']
+            // tags:['api', 'address']
         },
         handler: addressController.create
     });

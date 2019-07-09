@@ -11,7 +11,7 @@ const create = async function (username, useremail, userpassword) {
             userEmail: useremail
         });
         if (isExist) {
-            return ERROR.Code.ALREADY_EXIT
+            return ERROR.Code.ALREADY_EXIST
         };
 
         let user = new Users();
@@ -33,20 +33,20 @@ const login = async (useremail, password) => {
         const user = await Users.findOne({
             userEmail: useremail
         });
-
+        console.log(user)
         if (!user) {
-            return ERROR.Code.NOT_FOUND;
+            return ERROR.Code.EMAIL_NOT_FOUND;
         }
         //and then verify.
         const match = hashTools.verifyPassword(password, user.userPassword);
-        console.log(match);
+        console.log('isPasswordMatch: '+match);
         if (!match) {
-            return ERROR.Code.INVALID;
+            return ERROR.Code.PASSWORD_INVALID;
         }
 
         // at here match == true: --> return a token.    
         console.log(user._id)  ;
-        const token = tokenTools.genarateToken(user._id, user.userName, user.userEmail);
+        const token = tokenTools.genarateToken(user._id);
         console.log(token);
        
         const data =  userDTO.convertLoginDataReturn(token, user)
@@ -62,7 +62,7 @@ const login = async (useremail, password) => {
 const getProfile = async function (accessToken) {
     try {
         const user = tokenTools.verifyToken(accessToken);
-        const userData = await Users.getById(user.userID);
+        const userData = await Users.getById(user._id);
         const result =  userDTO.convertGetProfileDataReturn(userData);
         return result;
     } catch (err) {

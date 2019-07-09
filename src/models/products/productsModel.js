@@ -22,19 +22,30 @@ let productSchema = new Schema({
 
 productSchema.statics.getById = async function getById(productID) {
     return await this.findOne({
-            _id: productID //conditions
-        },
+        _id: productID //conditions
+    },
         function (err) { // callback 
             if (err) {
                 throw err;
             }
         });
 }
-productSchema.statics.getPrices = async function getPrices(productID, productSize) {
-    const product = await Product.getById(productID);
-    const prices = product.productPrices;
-    const re = prices.find(price => price.size === productSize);
-    return re.price
+productSchema.statics.getPrice = async function getPrice(productID, productSize) {
+    try {
+        const product = await Product.getById(productID);
+        if (!product) {
+            throw new Error(['Product not found', productID]);
+        }
+        const prices = product.productPrices; // list prices + size
+        // find price dependence on size
+        const result = prices.find(price => price.size === productSize);
+        return result.price
+    } catch (err) {
+        console.log("BUG on getPrice");
+        
+        throw err;
+    }
+
 }
 
 const Product = mongoose.model('Product', productSchema);

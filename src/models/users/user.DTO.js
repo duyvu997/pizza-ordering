@@ -5,7 +5,8 @@ module.exports = {
             userName: userData.userName,
             userEmail: userData.userEmail,
             userAddress: userData.userAddress,
-            userPhone: userData.userPhone
+            userPhone: userData.userPhone,
+            userPoint: userData.userPoint
         }
 
     },
@@ -15,7 +16,8 @@ module.exports = {
             userName: userData.userName,
             userEmail: userData.userEmail,
             userAddress: userData.userAddress,
-            userPhone: userData.userPhone
+            userPhone: userData.userPhone,
+            userPoint: userData.userPoint
         }
 
     }

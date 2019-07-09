@@ -14,18 +14,15 @@ module.exports.register = async (req, h) => {
 
         const result = await services.create(userName, userEmail, userPassword);
         
-        if (ERROR.Code.ALREADY_EXIT === result ) {
-            return h.response({
-                statusCode: ERROR.Code.ALREADY_EXIT,
-                message   : ERROR.Message.Already_exist
-            });
+        if (ERROR.Code.ALREADY_EXIST === result ) {
+            return h.response({message   : ERROR.Message.Already_exist}).code(400);
         }
 
         if(!result) {
-            return h.response({message:"Internal Server Error"}).code(500);
+            return h.response({message:ERROR.Message.Register_Error}).code(500);
         }
 
-        return h.response({message:"Register Success"}).code(200);
+        return h.response({message:ERROR.Message.Register_Success}).code(200);
 
     } catch (err) {
         return h.response(err).code(500);
@@ -39,19 +36,18 @@ module.exports.login = async (req, h) => {
             userEmail,
             userPassword
         } = req.payload;
-        
-
-        if(userEmail === undefined||userPassword === undefined){
-            return h.response('Invalid input').code(400);
-        }
-     
+             
         const result = await services.login(userEmail, userPassword);
-        console.log(result)
-        if (ERROR.Code.INVALID === result || ERROR.Code.NOT_FOUND === result){
-            const obj =  {statusCode: ERROR.Code.INVALID, message: ERROR.Message.Invalid}
-            return h.response(obj);
+        console.log(result);
+        
+        if( ERROR.Code.EMAIL_NOT_FOUND === result){            
+            return h.response({message:ERROR.Message.Email_Not_Found}).code(400);
         }
 
+        if (ERROR.Code.PASSWORD_INVALID === result ){
+            return h.response({message:ERROR.Message.Password_Invalid}).code(400);
+        } 
+        
         return h.response(result).code(200);
 
     } catch (err) {
