@@ -31,10 +31,10 @@ userSchema.statics.getById = function getById(userId) {
         });
 }
 
-userSchema.statics.updatePassword = function updatePassword(username, somepassword) {
+userSchema.statics.updatePassword = function updatePassword(useremail, somepassword) {
 
     this.findOneAndUpdate({
-            userName: username // condition
+            userEmail: useremail // condition
         }, {
             $set: {
                 userPassword: somepassword 

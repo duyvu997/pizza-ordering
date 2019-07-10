@@ -4,7 +4,7 @@ Joi.objectId = require('joi-objectid')(Joi);
 module.exports = {
     gettById: {
         params: Joi.object().keys({
-            id: Joi.objectId()
+            id: Joi.objectId().required()
         })
     },
     queryProduct:{

@@ -16,14 +16,14 @@ module.exports = (server)=>{
             return 'favicon.ico'
         }
     });
-    server.route({
-        method:'POST',
-        path: '/process/{id}',
-        options:{
-            validate: services.validatePayload
-        },
-        handler : services.sendMessage
+    // server.route({
+    //     method:'POST',
+    //     path: '/process/{id}',
+    //     options:{
+    //         validate: services.validatePayload
+    //     },
+    //     handler : services.sendMessage
         
-    });
+    // });
 
 }

@@ -22,6 +22,15 @@ module.exports = (server) => {
             tags:['api','products']
         }
     })
+    server.route({
+        method:'GET',        
+        path:'/products/recommend',
+        options:{
+            handler: productController.findRecommendProducts,
+            description: 'Get bestseller products  ',
+            tags:['api','products']
+        }
+    })
 
     server.route({
         method:'GET',

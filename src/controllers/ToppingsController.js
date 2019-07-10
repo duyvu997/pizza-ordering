@@ -15,6 +15,7 @@ const getToppingsByCategory = async function (req, h) {
         result = await services.findToppingsByCategory(category);
         return h.response(result).code(200);
     } catch (err) {
+        console.log(err);
         throw err;
     }
 }

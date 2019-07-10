@@ -10,11 +10,12 @@ let productSchema = new Schema({
     },
     productDesc: String,
     productNutrition: String,
+    productCrust:[String],
     productPrices: [{
         size: String,
         price: Number
     }],
-    productImangeUrl: String,
+    productImage: String,
     productTag: String
 
 });

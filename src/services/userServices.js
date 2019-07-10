@@ -3,6 +3,16 @@ const hashTools = require('../middleware/hash/hash');
 const tokenTools = require('../middleware/auth/token/token');
 const userDTO =  require('../models/users/user.DTO');
 const ERROR = require('../configuration/errorConstant');
+var generator = require('generate-password');
+const nodemailer = require('nodemailer');
+const transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+        user: 'duyghjha2@gmail.com',
+        pass: '147258thuha'
+    }
+});
+
 
 
 const create = async function (username, useremail, userpassword) {
@@ -17,7 +27,7 @@ const create = async function (username, useremail, userpassword) {
         let user = new Users();
         user.userName = username;
         user.userEmail = useremail;
-        hashTools.cryptPassword(username, userpassword);
+        hashTools.cryptPassword(useremail, userpassword);
         const userDB = await user.save();
 
         return userDB;
@@ -26,6 +36,51 @@ const create = async function (username, useremail, userpassword) {
         throw err;
     }
 
+}
+const update = async function (userID,objData) {
+    try {
+        const isExist = await Users.findOne({
+            _id: userID
+        });
+        if (!isExist) {
+            return ERROR.Code.USER_NOT_FOUND;
+        };
+        // const result =  await Users.findByIdAndUpdate({_id: userID},{$set:{userName: uname, userEmail: uemail, userAddress: uaddress, userPhone: uphone}});
+        const result =  await Users.findByIdAndUpdate(userID,objData);
+
+        return result;
+
+    } catch (err) {
+        throw err;
+    }
+
+}
+const resetPassword = async function(userEmail){
+    try{
+
+        const isExist = await Users.findOne({
+            userEmail: userEmail
+        });
+        if (!isExist) {
+            return ERROR.Code.USER_NOT_FOUND;
+        };
+        const password = generator.generate({
+            length: 10,
+            numbers: true
+        });
+        hashTools.cryptPassword(userEmail, password);
+
+        var mailOptions = {
+            from: 'duyghjha2@gmail.com',
+            to: userEmail,
+            subject: 'RESET PASSWORD',
+            text: 'Your password was reset to: '+ password
+        };
+        return await transporter.sendMail(mailOptions);
+    }catch(err){
+        console.log(err);
+        throw err;  
+    }
 }
 
 const login = async (useremail, password) => {
@@ -39,7 +94,7 @@ const login = async (useremail, password) => {
         }
         //and then verify.
         const match = hashTools.verifyPassword(password, user.userPassword);
-        console.log('isPasswordMatch: '+match);
+        console.log('isPasswordMatch: '+ match);
         if (!match) {
             return ERROR.Code.PASSWORD_INVALID;
         }
@@ -59,10 +114,9 @@ const login = async (useremail, password) => {
     }
 }
 
-const getProfile = async function (accessToken) {
+const getProfile = async function (userID) {
     try {
-        const user = tokenTools.verifyToken(accessToken);
-        const userData = await Users.getById(user._id);
+        const userData = await Users.getById(userID);
         const result =  userDTO.convertGetProfileDataReturn(userData);
         return result;
     } catch (err) {
@@ -71,7 +125,9 @@ const getProfile = async function (accessToken) {
 }
 
 module.exports = {
+    update,
     create,
     login,
-    getProfile
+    getProfile,
+    resetPassword
 }

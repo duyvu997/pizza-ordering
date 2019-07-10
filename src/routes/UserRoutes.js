@@ -8,10 +8,30 @@ module.exports         = (server) => {
         path           : '/users',
         options        : {
             description: 'Create a user',
-            notes      : 'Return a token for this user',
+            
             tags       : ['api','register'],
             validate   : userValidate.register,
             handler    : userController.register
+        },
+    });
+    server.route({
+        method         : 'PUT',
+        path           : '/users',
+        options        : {
+            description: 'Update user',            
+            tags       : ['api','user'],
+            // validate   : userValidate.update,
+            handler    : userController.update
+        },
+
+    });
+    server.route({
+        method         : 'POST',
+        path           : '/users/password',
+        options        : {
+            description: 'Reset password for use',            
+            tags       : ['api','user'],           
+            handler    : userController.forgotPassword
         },
 
     });

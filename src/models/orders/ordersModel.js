@@ -90,6 +90,43 @@ orderSchema.statics.findBestSeller = async function findBestSeller ()  {
     return result;
 }
 
+orderSchema.statics.findRecommend = async function findRecommend (userId)  {
+   
+    const id  =  mongoose.Types.ObjectId(userId)
+    const result = await Order.aggregate([
+        {
+            $match: {"userID": id}
+        },
+        {
+            $unwind: "$cartItems"
+        },
+        {
+            $group: {
+                _id: "$cartItems.productID"
+            }
+        },
+        {
+            $lookup: {
+                from: "products",
+                localField: "_id",
+                foreignField: "_id",
+                as: "product"
+            }
+        },  
+         {
+            $unwind: "$product"
+        },
+         {
+            $project: {
+                "product":1 ,
+                "_id": 0
+            }
+        }
+    ])
+    // console.log(result);
+    return result;
+}
+
 const Order = mongoose.model('Order', orderSchema);
 module.exports = Order
 

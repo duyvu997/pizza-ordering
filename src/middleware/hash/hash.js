@@ -3,12 +3,12 @@ const Model =  require('../../models/users/usersModel')
 const saltRounds = 10;
 
 
-const cryptPassword = async function (userName, userPassword) {
+const cryptPassword = async function (userEmail, userPassword) {
     await bcrypt.hash(userPassword, saltRounds, function (err, passHash){
         if(err){
             throw err;
         }
-        Model.updatePassword(userName, passHash);
+        Model.updatePassword(userEmail, passHash);
     });
 }
 
