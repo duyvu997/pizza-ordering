@@ -13,7 +13,7 @@ require('dotenv').config();
 async function StartServer() {
   await Database.connect;
   const server = new Hapi.server({
-    host: 'localhost',
+    // host: 'localhost',
     port: process.env.PORT || 3646,
     query: {
       parser : (query)=> Qs.parse(query)
