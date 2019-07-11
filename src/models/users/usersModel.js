@@ -49,7 +49,7 @@ userSchema.statics.updatePassword = function updatePassword(useremail, somepassw
 
 userSchema.statics.updateDefaultAddress =  function updateDefaultAddress(userID, address) {
     
-    console.log("update Address");
+
     this.findOneAndUpdate({
         _id: userID // condition
     }, {
@@ -64,7 +64,7 @@ userSchema.statics.updateDefaultAddress =  function updateDefaultAddress(userID,
     })
 }
 userSchema.statics.updateDefaultPhone = function updateDefaultPhone(userID, phoneNumber) {
-    console.log("update Phone");
+
     console.log(userID);
     this.findOneAndUpdate({
         _id: userID // condition

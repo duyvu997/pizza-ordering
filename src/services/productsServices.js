@@ -39,7 +39,7 @@ const findProductsByCategory = async function (categoryName, numberOfProduct) {
 const findBestSellerProducts =  async function(){
     try {
         const lstBestSeller = await Orders.findBestSeller();
-        console.log(lstBestSeller);
+        // console.log(lstBestSeller);
         const bestSellerData =  ProductsDTO.convertReturnBestSellerProducts(lstBestSeller);
         return bestSellerData
     } catch (err) {

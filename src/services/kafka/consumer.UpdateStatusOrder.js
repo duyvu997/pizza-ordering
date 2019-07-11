@@ -41,7 +41,7 @@ consumer.on("data", async function (m) {
 
     const stringData       = m.value.toString();    
     const objData          = JSON.parse(stringData);
-  
+    console.log('We receive the order Update status: processed -> delivered');
     const updateOrder      = await orderServices.updateOrderStatus(objData._id, objData.status);
     console.log(updateOrder);
     return updateOrder;

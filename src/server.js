@@ -9,10 +9,11 @@ require('dotenv').config();
 
 
 
+
 async function StartServer() {
   await Database.connect;
   const server = new Hapi.server({
-    // host: process.env.HOST,
+    host: 'localhost',
     port: process.env.PORT || 3646,
     query: {
       parser : (query)=> Qs.parse(query)
@@ -56,12 +57,14 @@ async function StartServer() {
   await server.start();
   
   Consumer
-
+ 
   console.log(`Server running at: ${server.info.uri}`);
 }
 
+
 StartServer().catch(err => {
   console.error(`StartServer failed: ${err.stack}`)
+
   process.exit(1)
 });
 

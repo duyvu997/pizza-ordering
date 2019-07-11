@@ -23,7 +23,6 @@ module.exports = (server)=>{
     //         validate: services.validatePayload
     //     },
     //     handler : services.sendMessage
-        
     // });
 
 }
