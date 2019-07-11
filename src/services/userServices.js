@@ -65,13 +65,13 @@ const resetPassword = async function(userEmail){
             return ERROR.Code.USER_NOT_FOUND;
         };
         const password = generator.generate({
-            length: 10,
+            length: 8,
             numbers: true
         });
         hashTools.cryptPassword(userEmail, password);
 
         var mailOptions = {
-            from: 'duyghjha2@gmail.com',
+            from: 'devteamtastypizza@gmail.com',
             to: userEmail,
             subject: 'RESET PASSWORD',
             text: 'Your password was reset to: '+ password

@@ -50,7 +50,7 @@ module.exports = {
     },
     updateStatusOrder :{
         payload: Joi.object().keys( {
-            status: Joi.string().valid(['processed', 'cancelled']).required()
+            status: Joi.string().valid(['cancelled']).required()
         }),failAction: (req,h, error) => {    
             console.log(error.details[0]);
            return error.isJoi

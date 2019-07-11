@@ -44,6 +44,10 @@ const create = async function (userID, orderStatus, orderAddress, rcvName, userP
         order.totalPrice = TotalPrice;
 
         const OrderSaved = await order.save();
+        setTimeout(function(){
+            console.log('Auto changed status: submited -> processed');
+            updateStatusByUser(OrderSaved._id, 'processed')
+        }, 10000);
 
         const result = OrderDTO.convertCreateOrderReturn(OrderSaved);
         return result;
@@ -90,8 +94,29 @@ const updateOrderStatus = async function (orderID, status) {
     try {
         // console.log(orderID, status)
         const result = await Orders.findByIdAndUpdate({ _id: orderID }, { orderStatus: status }, { new: true });
-        // console.log(result)
+      
         return result;
+    } catch (err) {
+        throw err;
+    }
+}
+const updateStatusByDeliver = async function (orderID, newStatus) {
+    try {
+        console.log(newStatus);
+        const orderDB = await Orders.findById({ _id: orderID });
+
+        if(!orderDB){
+            return ERROR.Code.PRODUCT_NOT_FOUND;
+        }
+
+        const oldStatus = orderDB.orderStatus;
+        
+        if ("cancelled" == oldStatus) {
+            return ERROR.Code.REJECT_UPDATE;
+        }
+        
+       return updateOrderStatus(orderID, newStatus)
+
     } catch (err) {
         throw err;
     }
@@ -124,6 +149,7 @@ const updateStatusByUser = async function (orderID, newStatus) {
 }
 
 module.exports = {
+    updateStatusByDeliver,
     getAllOrders,
     create,
     updateOrderStatus,
