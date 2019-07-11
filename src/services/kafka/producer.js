@@ -17,7 +17,7 @@ const kafkaConf = {
 };
 
 const prefix   = process.env.CLOUDKARAFKA_TOPIC_PREFIX;
-const topic    = `${prefix}processOrder`;
+const topic    = `${prefix}vnduy1177`;
 
 
 const validatePayload = {
@@ -42,7 +42,7 @@ const sendOrderInfo = function (orderID, username, address, userphone, cartitems
     console.log('Producer ready');
     console.log(`Producer ${arg.name} ready`);  
     try {
-      console.log('procedure sendOrderInfo: ID: '+ orderID + ' name: '+username );
+      console.log('Procedure sendOrderInfo: ID: '+ orderID + ' ReceiverName: '+username );
       producer.produce(topic, -1, new Buffer.from(JSON.stringify({
         _id: orderID,
         userName: username,

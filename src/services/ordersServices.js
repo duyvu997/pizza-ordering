@@ -99,7 +99,7 @@ const updateOrderStatus = async function (orderID, status) {
 
 const updateStatusByUser = async function (orderID, newStatus) {
     try {
-
+        console.log(newStatus);
         const orderDB = await Orders.findById({ _id: orderID });
 
         if(!orderDB){
