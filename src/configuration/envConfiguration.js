@@ -5,7 +5,7 @@ module.exports = {
     },
     database    : {
         url     : 'mongodb://localhost:27017/pizza-orderring',
-        urlCloud: 'mongodb+srv://ngocduy799:maimaiyem250912@pizzaorderclouddb-bvcbc.mongodb.net/PizzaOrder?retryWrites=true&w=majority',
+        urlCloud: 'mongodb+srv://ngocduy799:maimaiyem@pizzaorderclouddb-bvcbc.mongodb.net/PizzaOrder?retryWrites=true&w=majority',
 
     },
     auth         : {
